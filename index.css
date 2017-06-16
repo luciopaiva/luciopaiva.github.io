@@ -34,22 +34,22 @@ h2 {
     flex-wrap: wrap;
     width: 100%;
     cursor: pointer;
+    filter: grayscale(100%);
 }
 
 .thumbnail:hover {
     box-shadow: 1px 1px 20px 0 #ccc;
     border: 1px solid white;
+    filter: grayscale(0%);
 }
 
 .thumbnail .project-image {
     width: 100%;
     height: 168px;
-    filter: grayscale(100%);
     margin: 9px;
 }
 
 .thumbnail .project-image:hover {
-    filter: grayscale(0%);
 }
 
 .list-group-articles li, .list-group-gists li {
