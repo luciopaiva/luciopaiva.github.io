@@ -1,0 +1,26 @@
+
+body {
+}
+
+.header-title {
+    padding-left: 35px;
+}
+
+.avatar {
+    height: 100px;
+}
+
+.flex-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flex-row > [class*='col-'] {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.thumbnail {
+    display: flex;
+    flex-wrap: wrap;
+}
