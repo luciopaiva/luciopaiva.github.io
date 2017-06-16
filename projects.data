@@ -1,0 +1,24 @@
+Particles
+https://luciopaiva.github.io/particles/
+A simulation of thousands of particles using a custom quad-tree structure
+img/particles.jpeg
+
+Divide or Blow
+https://luciopaiva.github.io/divide-or-blow/
+A remake of a very simple game I used to play as a kid, made in plain JS
+img/divide-or-blow.jpeg
+
+Epoch
+https://luciopaiva.github.io/epoch/
+An experimental timeline made with D3
+img/epoch.jpeg
+
+Ingresso
+https://github.com/luciopaiva/ingresso
+Interactive crawler for ingresso.com movie sessions
+img/ingresso.jpeg
+
+GPX Elevation Gain Analyzer
+https://luciopaiva.github.io/gpx/
+Parses elevation gain and compares it with data from Google Maps API
+img/gpx.jpeg
