@@ -69,6 +69,16 @@ h2 {
     text-align: right;
 }
 
+#contents .image-left {
+    float: left;
+    margin-right: 10px
+}
+
+#contents .image-right {
+    float: right;
+    margin-left: 10px
+}
+
 #contents {
     text-align: justify;
 }
