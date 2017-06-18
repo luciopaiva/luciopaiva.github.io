@@ -2,8 +2,22 @@
 body {
 }
 
+h2 {
+    margin-bottom: 20px;
+}
+
 .header-title {
     padding-left: 35px;
+}
+
+.header-about {
+    position: relative;
+    top: 40px;
+}
+
+.anchor-no-styling, .anchor-no-styling:hover {
+    text-decoration: none;
+    color: inherit;
 }
 
 .avatar {
@@ -23,4 +37,61 @@ body {
 .thumbnail {
     display: flex;
     flex-wrap: wrap;
+    width: 100%;
+    cursor: pointer;
+    filter: grayscale(100%);
+}
+
+.thumbnail:hover {
+    box-shadow: 1px 1px 20px 0 #ccc;
+    border: 1px solid white;
+    filter: grayscale(0%);
+}
+
+.thumbnail .project-image {
+    width: 100%;
+    height: 168px;
+    margin: 9px;
+}
+
+.thumbnail .project-image:hover {
+}
+
+.list-group-articles li, .list-group-gists li {
+    border: none;
+    border-left: 1px solid #ddd;
+    margin-bottom: 6px;
+    border-radius: 10px;
+}
+
+.footer {
+    margin-bottom: 50px;
+    text-align: right;
+}
+
+#contents .image-left {
+    float: left;
+    margin-right: 10px
+}
+
+#contents .image-right {
+    float: right;
+    margin-left: 10px
+}
+
+#contents {
+    text-align: justify;
+}
+
+/** center images inside an article **/
+#contents img {
+    display: block;
+    margin: auto;
+}
+
+#contents .legend {
+    display: block;
+    margin: auto;
+    text-align: center;
+    font-style: italic;
 }
