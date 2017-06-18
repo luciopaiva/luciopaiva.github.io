@@ -39,7 +39,7 @@ class HomePage {
         }
 
         for (const gist of data.slice(0, this.maxGists)) {
-            this.addGist(gist.description, gist.url);
+            this.addGist(gist.description, gist.html_url);
         }
 
         console.info('Gists loaded: ' + data.length);
