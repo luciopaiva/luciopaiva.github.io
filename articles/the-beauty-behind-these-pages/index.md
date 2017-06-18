@@ -5,11 +5,14 @@ In this article I explain how I made my personal home page using vanilla Javascr
 
 ## Where to host it
 
-There's a handful of possibilities out there if you want to make your own static home page. First, you don't want expensive hosting services, since all you need is some basic server to provide browsers with your static content, no extra server-side work required. You could use AWS S3 for that, or you could just use **GitHub Pages** and even version your page at the same time... and that's what I chose.
+<img src="octocat.png" style="width: 120px; float: right; margin-left: 10px"> There's a handful of possibilities out there if you want to make your own static home page. First, you don't want expensive hosting services, since all you need is some basic server to provide browsers with your static content, no extra server-side work required. You could use AWS S3 for that, or you could just use **GitHub Pages** and even version your page at the same time... and that's what I chose.
 
 ## Static site generators?
 
 There's this project called Jekyll. It parses your raw article texts and spits out static pages ready to be published. GitHub supports it and I have a close friend who is [using it in his blog][bernardo]. Should you use it? Well, it so happens that I am averse to having to compile, build or do any kind of post-processing to my Javascript code. I avoid this building step as much as possible. Of course, if it makes your life easier, you should use. But what I like the most in a scripting language is the possibility of just hitting the "play" button and watch it live, no bureaucracy involved. That's why I never really liked Grunt or Gulp, and why I decided to give up on Typescript in favor of pure ES6. So, no, **I won't use Jekyll or any kind of site generators** for that matter.
+
+![Mr. Hyde](mr-hyde.jpg)
+<span class="legend">Not this time, Dr. Jekyll!</span>
 
 ## Keep it simple and modern
 
@@ -37,6 +40,23 @@ And here comes [marked][marked] to the rescue. It does on-the-fly Markdown parsi
     });
 
 The code first waits for the `load` event to be triggered, meaning the page has finished loading. When that happens, it asks `d3` to load our Markdown file as plain text, which then gets passed to `marked` so it can turn the article into proper HTML and stuff it into a `div` element we have just for that.
+
+As of the time of this writing, marked seems to be in limbo. His author is not maintaining it anymore and, although it granted commit access to some people in the community, it still has tons of pull requests to be reviewed and people are starting to talk about a fork of the project under a new name. For now, however, marked is still the best way to go, it seems. I can say it's working pretty well for me.
+
+Marked parses code blocks as plain text. If you want syntax highlighting, though, it exposes a callback where you can plug your favorite highlighting tool. I'm using Highlight.js here. It allows you to select among several available styles and it even lets you pick which languages you want to support, contributing to let your final page size as small as possible. Here's how I'm using it:
+
+    marked.setOptions({
+        highlight: code => hljs.highlightAuto(code).value
+    });
+
+`hljs` is the global exported by Highlight.js. What you have to do is register a callback for when Marked detects code which could undergo syntax highlighting. Although it works pretty well, there's one glitch I had to fix regarding `pre` elements' background color. As Marked handles only `pre` elements' contents to the highlighter, the highlighter is not able to modify `pre`s' attributes themselves. This means Highlight.js can't add `hljs` class to `pre` elements and its CSS script is then not able to properly add a background color to them. To fix this, I had to write the following patch inside my Javascript file, right after Marked ran:
+
+    // marked does not let Hightlight.js add `hljs` class to pre elements as it should
+    for (const pre of element.querySelectorAll('pre')) {
+        pre.classList.add('hljs');
+    }
+
+With that, my basic script is able to load, parse and do syntax highlighting to all my articles from now on and I don't have to worry about any of that anymore. Cool!
 
 ## Site structure and SEO
 
@@ -96,10 +116,6 @@ We parse the Markdown file just like before, but after that we query it for the 
 So now I can have a template index.html ready to be copied every time I write a new article. I just have to copy it from any other existing article and paste it into the new article's folder. My Markdown files are all going to be called `index.md` so `index.html` will automatically find it for every new article. Simple and easy, right?
 
 And that's about it. Now you just have to publish it to GitHub and see your page go live, no pain involved. This ends my first article, which I hope will be of use to someone else. Please feel free to contact me if you see this article can be improved somehow. A good way would be to [open an issue in GitHub][github-issue]. Stay tuned for the next article :-)
-
-Yet to be done:
-
-- syntax highlighting
 
 [bernardo]: http://www.bernardopacheco.net
 [marked]: https://github.com/chjj/marked

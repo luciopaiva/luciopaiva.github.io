@@ -15,6 +15,11 @@ h2 {
     top: 40px;
 }
 
+.anchor-no-styling, .anchor-no-styling:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
 .avatar {
     height: 100px;
 }
@@ -57,4 +62,26 @@ h2 {
     border-left: 1px solid #ddd;
     margin-bottom: 6px;
     border-radius: 10px;
+}
+
+.footer {
+    margin-bottom: 50px;
+    text-align: right;
+}
+
+#contents {
+    text-align: justify;
+}
+
+/** center images inside an article **/
+#contents img {
+    display: block;
+    margin: auto;
+}
+
+#contents .legend {
+    display: block;
+    margin: auto;
+    text-align: center;
+    font-style: italic;
 }
