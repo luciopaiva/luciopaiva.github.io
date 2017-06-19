@@ -6,32 +6,30 @@
     <title>D3 Brush Tutorial</title>
 
     <link rel="stylesheet" href="../../lib/bootstrap.min.css">
+    <link rel="stylesheet" href="../../lib/highligh-darcula.css">
     <link rel="stylesheet" href="../../index.css">
 
     <script src="../../lib/d3.min.js"></script>
+    <script src="../../lib/highlight.pack.js"></script>
     <script src="../../lib/marked.min.js"></script>
-
-    <style>
-        #contents {
-            text-align: justify;
-        }
-    </style>
 </head>
 <body>
 
 <div class="container">
 
     <!-- page header -->
-    <div class="row header-row">
+    <header class="row header-row">
         <div class="page-header">
             <div class="row">
-                <div class="col-md-1 col-sm-2 header-avatar">
-                    <img src="../../img/avatar.png" alt="" class="avatar img-rounded">
-                </div>
-                <div class="col-md-7 col-sm-6 header-title">
-                    <h1>Lucio Paiva</h1>
-                    <p>Some of my projects and articles</p>
-                </div>
+                <a href="/" class="anchor-no-styling">
+                    <div class="col-md-1 col-sm-2 header-avatar">
+                        <img src="../../img/avatar.png" alt="" class="avatar img-rounded">
+                    </div>
+                    <div class="col-md-7 col-sm-6 header-title">
+                        <h1>Lucio Paiva</h1>
+                        <p>Some of my projects and articles</p>
+                    </div>
+                </a>
                 <div class="col-md-4 col-sm-4 hidden-xs text-right">
                     <div class="row">
                         <div class="col-md-12">
@@ -45,43 +43,32 @@
                     </div>
                     <div class="row header-about">
                         <div class="col-md-12">
-                            <a href="../../articles">Articles</a> |
-                            <a href="../../projects">Projects</a> |
-                            <a href="../../gists">Gists</a> |
+                            <!--<a href="../../articles">Articles</a> |-->
+                            <!--<a href="../../projects">Projects</a> |-->
+                            <!--<a href="../../gists">Gists</a> |-->
                             <a href="../../about">About me</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </header>
 
-    <div class="row">
+    <section class="row">
         <div class="col-md-12">
-            <p id="contents"></p>
+            <p id="contents">
+                <!-- article goes here -->
+            </p>
         </div>
-    </div>
+    </section>
+
+    <footer class="footer">
+        <hr>
+        Lucio Paiva 2017
+    </footer>
 </div>
 
-<script>
-    window.addEventListener('load', () => {
-        console.info('Page loaded.');
-
-        d3.text('index.md', (error, data) => {
-            if (error) throw error;
-
-            const element = document.getElementById('contents');
-            element.innerHTML = marked(data);
-
-            // extracts the first H1 as the page title and the first phrase as the page description
-            const pageTitle = element.querySelector('h1').innerText;
-            const descriptionResult = element.querySelector('p').innerText.match(/[^.]+/) || [''];
-
-            document.title = pageTitle;
-            document.querySelector('meta[name="description"]').setAttribute('content', descriptionResult[0]);
-        });
-    });
-</script>
-
+<script src="../article.js"></script>
+<script src="../../lib/ga.js"></script>
 </body>
 </html>
