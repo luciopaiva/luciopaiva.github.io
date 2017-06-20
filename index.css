@@ -20,10 +20,6 @@ h2 {
     color: inherit;
 }
 
-.avatar {
-    height: 100px;
-}
-
 .flex-row {
     display: flex;
     flex-wrap: wrap;
