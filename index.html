@@ -17,85 +17,89 @@
 <div class="container">
 
     <!-- page header -->
-    <div class="row header-row">
-        <div class="page-header">
-            <div class="row">
-                <div class="col-md-1 col-sm-2 header-avatar">
-                    <img src="img/avatar.jpg" alt="" class="avatar img-rounded">
-                </div>
-                <div class="col-md-7 col-sm-6 header-title">
-                    <h1>Lucio Paiva</h1>
-                    <p>Some of my projects and articles</p>
-                </div>
-                <div class="col-md-4 col-sm-4 hidden-xs text-right">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a href="https://github.com/luciopaiva" target="_blank">
-                                <img src="img/github.png" title="My GitHub page" alt="My GitHub page"></a>
-                            <a href="https://stackoverflow.com/users/778272/lucio-paiva" target="_blank">
-                                <img src="img/stackoverflow.png" title="My Stack Overflow profile" alt="My Stack Overflow profile"></a>
-                            <a href="https://www.linkedin.com/in/luciopaiva" target="_blank">
-                                <img src="img/linkedin.png" title="My LinkedIn profile" alt="My LinkedIn profile"></a>
-                        </div>
+    <header class="row header-row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-md-2 col-sm-2 header-avatar">
+                        <img src="img/avatar.jpg" alt="" class="avatar img-rounded">
                     </div>
-                    <div class="row header-about">
-                        <div class="col-md-12">
-                            <!--<a href="articles.html">Articles</a> |-->
-                            <!--<a href="projects.html">Projects</a> |-->
-                            <!--<a href="gists.html">Gists</a> |-->
-                            <a href="about" rel=”author”>About me</a>
+                    <div class="col-md-6 col-sm-6 header-title">
+                        <h1>Lucio Paiva</h1>
+                        <p>Some of my projects and articles</p>
+                    </div>
+                    <div class="col-md-4 col-sm-4 hidden-xs text-right">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="https://github.com/luciopaiva" target="_blank">
+                                    <img src="img/github.png" title="My GitHub page" alt="My GitHub page"></a>
+                                <a href="https://stackoverflow.com/users/778272/lucio-paiva" target="_blank">
+                                    <img src="img/stackoverflow.png" title="My Stack Overflow profile" alt="My Stack Overflow profile"></a>
+                                <a href="https://www.linkedin.com/in/luciopaiva" target="_blank">
+                                    <img src="img/linkedin.png" title="My LinkedIn profile" alt="My LinkedIn profile"></a>
+                            </div>
+                        </div>
+                        <div class="row header-about">
+                            <div class="col-md-12">
+                                <!--<a href="articles.html">Articles</a> |-->
+                                <!--<a href="projects.html">Projects</a> |-->
+                                <!--<a href="gists.html">Gists</a> |-->
+                                <a href="about" rel=”author”>About me</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </header>
 
     <div class="row">
-        <!-- left column: articles and snippets -->
-        <div class="col-md-4">
-
-            <!-- articles -->
+        <div class="col-md-8 col-md-offset-2">
             <div class="row">
+                <!-- articles -->
                 <div class="col-md-12">
                     <h2>Latest Articles</h2>
 
                     <ul id="articles-container" class="list-group list-group-articles">
                         <!-- articles go here -->
                     </ul>
-                    <!--<p><a href="articles.html">All articles...</a></p>-->
                 </div>
             </div>
-
-            <!-- gists -->
             <div class="row">
                 <div class="col-md-12">
-                    <h2>My Gists</h2>
-                    <ul id="gists-container" class="list-group list-group-gists">
-                        <!-- gists go here -->
-                    </ul>
+                    <h2>Projects</h2>
+
+                    <div id="projects-container" class="row flex-row">
+                        <!-- projects go here -->
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <!-- right column: projects -->
-        <div class="col-md-8">
-            <h2>Projects</h2>
-
-            <div id="projects-container" class="row flex-row">
-                <!-- projects go here -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2>My Gists</h2>
+                            <ul id="gists-container" class="list-group list-group-gists">
+                                <!-- gists go here -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <hr>
+    <footer class="row footer text-right">
+        <div class="col-md-8 col-md-offset-2">
+            <hr>
 
-    <footer class="text-right">
-        <p class="small">
-            Lucio Paiva 2017<br>
-            www.luciopaiva.com<br>
-            <a href="https://github.com/luciopaiva/luciopaiva.github.io">View source</a>
-        </p>
+            <p class="small">
+                <small>
+                    Lucio Paiva 2017<br>
+                    <a href="https://github.com/luciopaiva/luciopaiva.github.io">View source</a>
+                </small>
+            </p>
+        </div>
     </footer>
 </div>
 
