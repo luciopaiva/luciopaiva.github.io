@@ -3,6 +3,8 @@
 
 Quick one: given a number, how to find the power of two that immediately follows it?
 
+One use for that is when you have some code that allocates a buffer in memory and you want to let the caller of your code to specify any buffer size it pleases. Internally, though, you want to restrict buffer size to always be a power of two. This is good because you keep your interface friendly and you also don't need to worry about throwing exceptions in case the caller provided a non-compliant value.
+
 One first, naive approach would be to iterate through all powers of two until you find the first one greater than the number being queried for:
 
     function powerOfTwoCeilNaive(value) {
