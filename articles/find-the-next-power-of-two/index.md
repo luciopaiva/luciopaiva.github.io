@@ -27,6 +27,8 @@ This avoids having to loop through all power of twos. But is it actually faster?
         return 1 << (log2 === log2Trunc ? log2Trunc : log2Trunc + 1);
     }
 
+*Note: in case `~~` looks cryptic to you, it is an old Javascript trick to truncate float values. `~` is just a bitwise not. The trick is that every time you run a bitwise operation on a number, Javascript automatically converts it to an integer value, truncating it. So you just need to negate it twice to get the original value floored.*
+
 Now let's run a jsperf test on it and see the results. Here are the results for `value` set to 31:
 
 ![Power-of-two of low values](jsperf-1-5.png)
@@ -35,7 +37,7 @@ And if we take the value to 1023:
 
 ![Power-of-two of low values](jsperf-1-10.png)
 
-Now let's see what happens when we make `value` a thousand times bigger:
+Now let's see what happens when we make `value` a thousand times bigger (`(1 << 20) - 1`):
 
 ![Power-of-two of low values](jsperf-1-20.png)
 
