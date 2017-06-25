@@ -150,3 +150,8 @@ h2 {
     font-style: italic;
     margin-bottom: 20px;
 }
+
+.last-updated {
+    color: #8d8d8d;
+    margin-bottom: 20px;
+}

@@ -68,7 +68,10 @@ class Article {
 
         // extracts the first H1 as the page title and the first phrase as the page description
         const pageTitle = this.contentsElement.querySelector('h1').innerText;
-        const descriptionResult = this.contentsElement.querySelector('p').innerText.match(/[^.]+/) || [''];
+        const paragraphs = this.contentsElement.querySelectorAll('p');
+        paragraphs[0].classList.add('last-updated');
+        paragraphs[0].innerHTML = 'Last update: ' + paragraphs[0].innerHTML;
+        const descriptionResult = paragraphs[1].innerText.match(/[^.]+/) || [''];
 
         // fill in page meta data
         document.title = pageTitle;

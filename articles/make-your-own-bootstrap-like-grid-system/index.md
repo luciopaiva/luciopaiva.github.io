@@ -1,6 +1,8 @@
 
 # Make Your Own Bootstrap-like Grid System
 
+June 25th, 2017
+
 Ever wondered how Bootstrap works to compose your page with rows and columns that fit so perfectly? This tutorial aims at demystifying how a grid system like Bootstrap works. After reading this article you'll be able to make your own, simple CSS script to reproduce with little effort what Bootstrap does to structure your page layout.
 
 ![Final result](10.png)

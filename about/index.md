@@ -1,6 +1,8 @@
 
 # About me
 
+June 25th, 2017
+
 I'm Lucio Paiva, a software developer with a Computer Science Master's degree from Federal University of Rio de Janeiro. I currently live in Rio with my wife Priscila and I work at [Zwift][zwift], a very cool indoor cycling online game.
 
 ## Short bio

@@ -1,6 +1,8 @@
 
 # The Beauty Behind These Pages
 
+June 18th, 2017
+
 In this article I explain how I made my personal home page using vanilla Javascript and GitHub Pages.
 
 ## Where to host it
