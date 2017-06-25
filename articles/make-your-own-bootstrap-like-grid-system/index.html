@@ -93,9 +93,24 @@
     <footer class="row footer">
         <div class="col-md-8 col-md-offset-2">
             <hr>
-            <small>Lucio Paiva 2017</small>
         </div>
     </footer>
+
+    <section class="row">
+        <div id="disqus_thread" class="col-md-8 col-md-offset-2"></div>
+        <script>
+            const disqus_config = function () {
+                this.page.url = 'http://luciopaiva.com/articles/make-your-own-bootstrap-like-grid-system';
+                this.page.identifier = '1002';
+            };
+            (function() {
+                const s = document.createElement('script');
+                s.src = 'https://luciopaiva.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', (new Date()).getTime().toString());
+                document.head.appendChild(s);
+            })();
+        </script>
+    </section>
 </div>
 
 </body>
