@@ -1,15 +1,60 @@
 
 body {
-    font-size: 17px;
+    font-size: 16px;
     line-height: 1.6;
+}
+
+h1 {
+    font-size: 33px;
 }
 
 h2 {
     margin-bottom: 20px;
 }
 
-.header-title {
-    padding-left: 35px;
+.avatar {
+    max-width: 100%;
+}
+
+.header-title-description {
+    display: none;
+}
+
+@media (min-width: 425px) {
+    .header-title-description {
+        display: block;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .avatar {
+        max-width: none;
+    }
+
+    .header-title {
+        padding-left: 15px;
+    }
+}
+@media (min-width: 992px) and (max-width: 1200px) {
+    .avatar {
+        max-width: none;
+    }
+
+    .header-title {
+        padding-left: 35px;
+    }
+}
+
+@media (max-width: 767px) {
+    .header-title h1 {
+        margin-top: 0;
+        margin-bottom: 0;
+        text-align: right;
+        font-size: 30px;
+    }
+    .header-title-description {
+        text-align: right;
+    }
 }
 
 .header-about {
@@ -37,7 +82,12 @@ h2 {
     flex-wrap: wrap;
     width: 100%;
     cursor: pointer;
-    filter: grayscale(100%);
+}
+
+@media (min-width: 992px) {
+    .thumbnail {
+        filter: grayscale(100%);
+    }
 }
 
 .thumbnail:hover {
@@ -69,17 +119,19 @@ h2 {
     text-align: right;
 }
 
-#contents .image-left {
-    float: left;
-    margin-right: 10px
+@media (min-width: 768px) {
+    #contents .image-left {
+        float: left;
+        margin-right: 10px
+    }
+
+    #contents .image-right {
+        float: right;
+        margin-left: 10px
+    }
 }
 
-#contents .image-right {
-    float: right;
-    margin-left: 10px
-}
-
-#contents {
+#contents p {
     text-align: justify;
 }
 
