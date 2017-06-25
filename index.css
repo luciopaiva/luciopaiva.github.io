@@ -56,10 +56,12 @@ h2 {
 }
 
 .list-group-articles li, .list-group-gists li {
-    border: none;
-    border-left: 1px solid #ddd;
     margin-bottom: 6px;
-    border-radius: 10px;
+}
+
+.article-description {
+    margin-left: 40px;
+    display: block;
 }
 
 .footer {
@@ -90,7 +92,9 @@ h2 {
 
 #contents .legend {
     display: block;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
     font-style: italic;
+    margin-bottom: 20px;
 }
