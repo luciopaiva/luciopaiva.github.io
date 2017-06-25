@@ -2,11 +2,6 @@
 
 /**
  * Responsible for loading an article in the page.
- *
- * 2017-06-19: I am trying to make article loading smarter, but I'm still not successful. Although I could start loading
- * the article right away when my script is loaded, I still need for d3 and marked to be loaded. d3 is the biggest one,
- * so it ends up queueing my script (since I need to defer it to after d3 is loaded) and then the markdown file gets
- * postponed. One way to avoid waiting for d3 is to implement my own ajax request, which I might do at some point.
  */
 class Article {
 
@@ -19,38 +14,70 @@ class Article {
      * This method may be called *before* the DOM finishes loading, so avoid querying for DOM elements at this point.
      * @return {void}
      */
-    async load() {
-        const documentLoaded = new Promise(resolve => document.addEventListener('DOMContentLoaded', resolve));
-
+    async fetchArticle() {
         // start downloading markdown file as soon as possible
-        const markdownLoaded = new Promise(this.loadMarkdown.bind(this));
+        const rawArticle = await this.fetch('index.md');
 
-        // wait for both the DOM and the markdown file to be loaded
-        const [ignored, parsedMarkdown] = await Promise.all([documentLoaded, markdownLoaded]);
+        // wait here until Marked and other libraries are already loaded
+        await this.waitForFullPageLoad();
 
-        this.updatePage(parsedMarkdown);
+        this.updatePage(this.parseMarkdown(rawArticle));
     }
 
     /**
-     * Asynchronously loads the Markdown file.
-     * @param {function} resolve - called if loading is successful
-     * @param {function} reject - called if something goes south
+     * Waits for the page to be fully loaded, scripts and stylesheets included.
+     * @returns {Promise}
      */
-    loadMarkdown(resolve, reject) {
-        d3.text('index.md', (error, data) => {
-            if (error) {
-                reject(error);
-            } else {
-                // parse markdown
-                marked.setOptions({
-                    highlight: code => hljs.highlightAuto(code).value
-                });
+    waitForFullPageLoad() {
+        if (!this.pageLoadingPromise) {
+            // this is the first call; prepare the promise
+            this.pageLoadingPromise = new Promise(resolve => {
+                if (document.readyState !== 'complete') {
+                    // document is still loading, so listen for event
+                    window.addEventListener('load', resolve);
+                } else {
+                    // page is already completely loaded
+                    resolve();
+                }
+            });
+        }
+        // subsequent calls are just going to return the original promise, be it fulfilled or not
+        return this.pageLoadingPromise;
+    }
 
-                const parsedMarkdown = marked(data);
-
-                resolve(parsedMarkdown);
-            }
+    /**
+     * Asynchronously fetch a file, returning its contents in plain text.
+     * @param {string} url - URL to fetch
+     * @returns {Promise} a promise to the response (upon success) or the XMLHttpRequest instance (in case of a failure)
+     */
+    async fetch(url) {
+        return new Promise((resolve, reject) => {
+            const httpRequest = new XMLHttpRequest();
+            httpRequest.onreadystatechange = () => {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        resolve(httpRequest.responseText);
+                    } else {
+                        reject(httpRequest);
+                    }
+                }
+            };
+            httpRequest.open('GET', url);
+            httpRequest.send();
         });
+    }
+
+    /**
+     * @param {string} rawData - the data to be parsed as Markdown
+     * @return {string} resulting HTML
+     */
+    parseMarkdown(rawData) {
+        // parse markdown
+        marked.setOptions({
+            highlight: code => hljs.highlightAuto(code).value
+        });
+
+        return marked(rawData);
     }
 
     /**
@@ -79,4 +106,4 @@ class Article {
     }
 }
 
-(new Article()).load();
+(new Article()).fetchArticle();
