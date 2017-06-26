@@ -7,30 +7,40 @@ In this article I explain how I made my personal home page using vanilla Javascr
 
 ## Where to host it
 
-<img src="octocat.png" style="width: 120px; float: right; margin-left: 10px"> There's a handful of possibilities out there if you want to make your own static home page. First, you don't want expensive hosting services, since all you need is some basic server to provide browsers with your static content, no extra server-side work required. You could use AWS S3 for that, or you could just use **GitHub Pages** and even version your page at the same time... and that's what I chose.
+<img src="octocat.png" style="width: 120px; float: right; margin-left: 10px">
+
+There's a handful of possibilities out there if you want to make your own static home page. First, I'm not interested in expensive hosting services, since all I need is some basic server to provide visitors' browsers with my static content, no extra server-side work required. I could use AWS S3 for that, or I could just use **GitHub Pages** and even host my page's Git repository at the same time... so GitHub Pages it is.
 
 ## Static site generators?
 
-There's this project called Jekyll. It parses your raw article texts and spits out static pages ready to be published. GitHub supports it and I have a close friend who is [using it in his blog][bernardo]. Should you use it? Well, it so happens that I am averse to having to compile, build or do any kind of post-processing to my Javascript code. I avoid this building step as much as possible. Of course, if it makes your life easier, you should use. But what I like the most in a scripting language is the possibility of just hitting the "play" button and watch it live, no bureaucracy involved. That's why I never really liked Grunt or Gulp, and why I decided to give up on Typescript in favor of pure ES6. So, no, **I won't use Jekyll or any kind of site generators** for that matter.
+There's this project called Jekyll. It parses your raw article texts and spits out static pages ready to be published. GitHub supports it and I have a close friend who is [using it in his blog][bernardo]. Should I use it? Well, it so happens that I am averse to having to compile, build or do any kind of post-processing to my Javascript code. I avoid this building step as much as possible. Of course, if it makes your life easier, you should use it. But what I like the most about a scripting language is the possibility of just hitting "play" and watching it go live, no bureaucracy involved. That's why I never really liked Grunt or Gulp, and why I decided to give up on Typescript in favor of pure ES6. So, no, **I won't use Jekyll or any kind of site generators** for that matter. It doesn't mean I won't have scripts to automate some things... more on that later.
 
 ![Mr. Hyde](mr-hyde.jpg)
 <span class="legend">Not this time, Dr. Jekyll!</span>
 
 ## Keep it simple and modern
 
-And that's also why I decided to go vanilla with my page as much as I can. The beauty comes with simplicity. I want to write HTML, CSS and Javascript and see it working right off the bat. I also want to breathe 21st century Javascript, so **ES6** for the win... and I don't mind if it doesn't work in Microsoft's browsers; I instead prefer my code to look beautiful.
+And that's also why I decided to go vanilla with my page as much as I can. *Beauty comes with simplicity*. I want to write HTML, CSS and Javascript and see it working right off the bat. I also want to breathe 21st century Javascript, so... **ES6** for the win! And I don't mind if it doesn't work on Microsoft's browsers; choosing to ignore Microsoft was a bad decision in the past, but now we live in a perfect world where Microsoft's browsers are just a small slice the in browser market share. That's really awesome because I can focus on writing beautiful code, knowing it will work on the vast majority of browsers.
 
 ## Which libraries to use?
 
-For page styling, of course, **Bootstrap**. It makes your page beautiful and it gives you license to stick your layout inside your HTML again, guilty-free (yes, to me these grid systems are nothing but a license to rape tableless design and go back to the 90's... but that's fine by me; they work pretty well and the job gets done quickly).
+For page styling, of course, **Bootstrap**. It makes your page beautiful and it gives you license to stick your layout inside your HTML again, guilty-free (yes, to me these grid systems are nothing but a license to violate tableless design and go back to the 90's... but that's fine by me; they work pretty well and the job gets done quickly).
 
-A couple of years ago, the next thing I would mention would be jQuery. To me, jQuery saved the web and prevented the death of thousands of web developers who would most certainly end their lives otherwise, given the mess the web was before John Resig came to free us all from Microsoft's evil plan to destroy the world with a mass-destruction weapon named IE. But now the future has arrived, at last. ES6 is here, Microsoft lost its market share and jQuery is not needed anymore. That's OK if you want to use it, though. I can understand. It's magical. But believe me, you don't need it anymore. So long, John, and thanks for all the fish. We love you.
+Until a couple of years ago (2015), the next thing I would mention would be jQuery. To me, jQuery saved the web and prevented the death of thousands of web developers who would most certainly end their lives otherwise, given the mess the web was before John Resig came to free us all from Microsoft's evil plan to destroy the world with a mass-destruction weapon called IE. But now the future has arrived, at last. ES6 is here, Microsoft lost its market share and jQuery is not needed anymore. That's OK if you want to use it, though. I can understand. It's magical. But believe me, you don't need it anymore. So long, John, and thanks for all the fish. We love you.
 
 There is a new guy in town, though. His name's Mike Bostock and he came up with an awesome toolkit called D3. I expect to use it extensively in my articles since I love data visualization, so I'll keep it around from the beginning. If you still haven't heard of it, stop everything you are doing and [go take a look][d3].
 
 ## Markdown articles
 
-The most important thing here however is content. I need to have something interesting to show in my page. I want to write articles like this one and I want it to be pain-free, so I can focus on what I have to say instead of wasting my time finding out why my build system broke after I updated `npm` to the next version. Someone who likes Jekyll could tell you: "see, that's the good thing about it, you can write your articles in Markdown and your articles will shine in all their glory". Well, I say forget Jekyll. Let's come up with our own, simpler way to write in Markdown and still make it work without the need for a build system.
+The most important thing here however is content. I need to have something interesting to show in my page. I want to write articles like this one and I want it to be pain-free, so I can focus on what I have to say instead of wasting my time finding out why my build system broke after I updated `npm` to the next version. Someone who likes Jekyll could tell you: "see, that's the good thing about it, you can write your articles in Markdown and they will shine in all their glory". Well, I say forget Jekyll. Let's come up with our own, simpler way to write in Markdown and still make it work without the need for a whole build system.
+
+<!--
+  TELL ABOUT HOW MY INITIAL IDEA WAS TO RENDER EVERYTHING ON THE BROWSER AND JUST HAVE PLAIN MARKDOWN FILES AT DEVELOPMENT TIME, BUT IT ALL WENT DOWN THE DRAIN WHEN I STARTED TO FIND OUT GOOGLE BOT DOES NOT GO WELL WITH JAVASCRIPT, DESPITE WHAT PEOPLE HAVE BEEN SAYING LATELY.
+
+  For instance, if you Google "site:luciopaiva.com about", you will find my About page. Google will show "D3 Brush Tutorial - Lucio Paiva" as the title, since I left it by accident inside the <title> tag, although my Javascript overwrites it as soon as my Markdown article gets loaded. This means it didn't wait for my Javascript to run to collect the title! Moreover, the snippet also didn't show the article contents. It showed my header *and* footer stuff, meaning it would have shown my article if that was the case that it would wait for my Javascript to run. So the bottom line is: Googlebot still has difficulty to process Javascript nowadays.
+-->
+
+<!--
 
 And here comes [marked][marked] to the rescue. It does on-the-fly Markdown parsing on the client side; so no need to pre-process anything. You can happily write your article and then call marked to parse it for you. Heck, you can even write it in a separate file and make Javascript load it for you inside your HTML:
 
@@ -59,6 +69,8 @@ Marked parses code blocks as plain text. If you want syntax highlighting, though
     }
 
 With that, my basic script is able to load, parse and do syntax highlighting to all my articles from now on and I don't have to worry about any of that anymore. Cool!
+
+-->
 
 ## Site structure and SEO
 
