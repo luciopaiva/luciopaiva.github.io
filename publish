@@ -1,0 +1,50 @@
+#!/usr/bin/env node
+/**
+ * Publishes a draft, promoting it to an article.
+ *
+ * The specified draft is copied to the articles folder (all of its files get copied) and index.html is edited with the
+ * following changes:
+ *
+ * - the markdown text is rendered into it;
+ * - Javascript files needed during development phase are removed from the header;
+ * - Disqus script is embedded into it;
+ * - a Disqus identifier is written, coming from `next-disqus-id` file (see project's root directory)
+ *
+ * Moreover, `article.json` is created containing general information about the article. It can be used in the future if
+ * there's need to rebuild the HTML file (say, if future page look changes).
+ *
+ * // ToDo decode HTML before putting it into page's description tag
+ */
+"use strict";
+
+const
+    logger = require('./build/logger'),
+    DraftPublisher = require('./build/draft-publisher');
+
+
+/**
+ * @param {string[]} args - program arguments
+ * @returns {void}
+ */
+async function main(args) {
+    if (args.length < 3) {
+        logger.info('Publishes drafts, promoting them to actual articles.');
+        logger.info('Usage: ./publish.js <draft-name>');
+        logger.info('Available drafts:');
+        for (const draft of DraftPublisher.listAvailableDrafts()) {
+            logger.info('\t* ' + draft);
+        }
+        process.exit(1);
+    }
+
+    const draftName = args[2];
+    const publisher = new DraftPublisher(draftName);
+    const result = await publisher.publish();
+    if (!result) {
+        logger.error('Something went wrong. Publishing aborted!');
+    } else {
+        logger.success('Article published successfully!');
+    }
+}
+
+main(process.argv);

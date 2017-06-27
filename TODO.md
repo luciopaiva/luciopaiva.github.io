@@ -2,6 +2,8 @@
 Next articles:
 
 - Inter-process communication in Electron using async/await
+- loading page scripts via `script async` and waiting for DOMContentLoaded in a smart way
+  it is going to be nice to write about it, since I'll probably delete that code in favor of statically loading everything offline
 
 Page features and improvements:
 
