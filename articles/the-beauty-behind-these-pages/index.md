@@ -41,6 +41,12 @@ The most important thing here however is content. I need to have something inter
 -->
 
 <!--
+2017-06-30
+Article demonstrating that Google *may* execute Javascript, but certainly not always
+https://www.stephanboyer.com/post/122/does-google-execute-javascript
+-->
+
+<!--
 
 And here comes [marked][marked] to the rescue. It does on-the-fly Markdown parsing on the client side; so no need to pre-process anything. You can happily write your article and then call marked to parse it for you. Heck, you can even write it in a separate file and make Javascript load it for you inside your HTML:
 
