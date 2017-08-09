@@ -1,109 +1,63 @@
-"use strict";
-
-/**
- * Responsible for loading an article in the page.
- */
-class Article {
-
-    constructor () {
-        this.contentsElement = null;
-    }
+// Using good old pre-ES6 Javascript for the sake of SEO. As of the time of this writing, Googlebot does not support ES6
+(function () {
+    "use strict";
 
     /**
-     * Loads the Markdown with the article to be displayed.
-     * This method may be called *before* the DOM finishes loading, so avoid querying for DOM elements at this point.
-     * @return {void}
+     * @param {string} url
+     * @param {function} callback
      */
-    async fetchArticle() {
-        // start downloading markdown file as soon as possible
-        const rawArticle = await this.fetch('index.md');
-
-        // wait here until Marked and other libraries are already loaded
-        await this.waitForFullPageLoad();
-
-        this.updatePage(this.parseMarkdown(rawArticle));
-    }
-
-    /**
-     * Waits for the page to be fully loaded, scripts and stylesheets included.
-     * @returns {Promise}
-     */
-    waitForFullPageLoad() {
-        if (!this.pageLoadingPromise) {
-            // this is the first call; prepare the promise
-            this.pageLoadingPromise = new Promise(resolve => {
-                if (document.readyState !== 'complete') {
-                    // document is still loading, so listen for event
-                    window.addEventListener('load', resolve);
+    function fetch(url, callback) {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.onreadystatechange = function () {
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 200) {
+                    callback(null, httpRequest.responseText);
                 } else {
-                    // page is already completely loaded
-                    resolve();
+                    callback(httpRequest.status);
                 }
-            });
-        }
-        // subsequent calls are just going to return the original promise, be it fulfilled or not
-        return this.pageLoadingPromise;
+            }
+        };
+        httpRequest.open('GET', url);
+        httpRequest.send();
     }
 
-    /**
-     * Asynchronously fetch a file, returning its contents in plain text.
-     * @param {string} url - URL to fetch
-     * @returns {Promise} a promise to the response (upon success) or the XMLHttpRequest instance (in case of a failure)
-     */
-    async fetch(url) {
-        return new Promise((resolve, reject) => {
-            const httpRequest = new XMLHttpRequest();
-            httpRequest.onreadystatechange = () => {
-                if (httpRequest.readyState === XMLHttpRequest.DONE) {
-                    if (httpRequest.status === 200) {
-                        resolve(httpRequest.responseText);
-                    } else {
-                        reject(httpRequest);
-                    }
-                }
-            };
-            httpRequest.open('GET', url);
-            httpRequest.send();
-        });
-    }
-
-    /**
-     * @param {string} rawData - the data to be parsed as Markdown
-     * @return {string} resulting HTML
-     */
-    parseMarkdown(rawData) {
-        // parse markdown
+    function parseMarkdown(rawData) {
         marked.setOptions({
-            highlight: code => hljs.highlightAuto(code).value
+            highlight: function (code) {
+                hljs.highlightAuto(code).value
+            }
         });
-
         return marked(rawData);
     }
 
-    /**
-     * Here the DOM is guaranteed to be loaded, so let's go ahead and update the page with the article loaded.
-     * @param {string} parsedMarkdown - the markdown that was just parsed into HTML
-     */
-    updatePage(parsedMarkdown) {
-        this.contentsElement = document.getElementById('contents');
-        this.contentsElement.innerHTML = parsedMarkdown;
+    function updatePage(parsedMarkdown) {
+        var
+            pageTitle,
+            paragraphs,
+            descriptionResult,
+            contentsElement = document.getElementById('contents');
+
+        contentsElement.innerHTML = parsedMarkdown;
 
         // marked does not let Hightlight.js add `hljs` class to pre elements as it should
-        for (const pre of this.contentsElement.querySelectorAll('pre')) {
+        contentsElement.querySelectorAll('pre').forEach(function (pre) {
             pre.classList.add('hljs');
-        }
+        });
 
         // extracts the first H1 as the page title and the first phrase as the page description
-        const pageTitle = this.contentsElement.querySelector('h1').innerText;
-        const paragraphs = this.contentsElement.querySelectorAll('p');
+        pageTitle = contentsElement.querySelector('h1').innerText;
+        paragraphs = contentsElement.querySelectorAll('p');
         paragraphs[0].classList.add('last-updated');
         paragraphs[0].innerHTML = 'Last update: ' + paragraphs[0].innerHTML;
-        const descriptionResult = paragraphs[1].innerText.match(/[^.]+/) || [''];
+        descriptionResult = paragraphs[1].innerText.match(/[^.]+/) || [''];
 
         // fill in page meta data
         document.title = pageTitle;
         document.querySelector('meta[name="description"]').setAttribute('content', descriptionResult[0]);
     }
-}
 
-(new Article()).fetchArticle();
+    fetch('index.md', function (errorCode, rawArticle) {
+        var markdownArticle = parseMarkdown(rawArticle);
+        updatePage(markdownArticle);
+    })
+})();
