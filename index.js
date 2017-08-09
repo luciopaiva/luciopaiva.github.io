@@ -1,202 +1,135 @@
-"use strict";
+// Using good old pre-ES6 Javascript for the sake of SEO. As of the time of this writing, Googlebot does not support ES6
+(function () {
+    "use strict";
 
-
-class HomePage {
-
-    constructor () {
-        console.info('Initializing...');
-
-        this.maxGists = 10;
-        this.maxArticles = 10;
-        this.maxProjects = 100;
-
-        this.pageLoadingPromise = null;  // will hold a promise to the DOM loaded event
-
-        // will be later filled with references to relevant DOM elements
-        this.projectTemplate = null;
-        this.projectsContainer = null;
-        this.articleTemplate = null;
-        this.articlesContainer = null;
-        this.gistTemplate = null;
-        this.gistsContainer = null;
-
-        // fire AJAX downloads asynchronously and join with DOM load event only after each download is complete
-        this.fetchArticlesSummary();
-        this.fetchProjectsSummary();
-        this.fetchGists();
-    }
+    var
+        MAX_ARTICLES = 10,
+        MAX_PROJECTS = 100,
+        MAX_GISTS = 10;
 
     /**
-     * Waits for DOM to load. We don't need window `load` event (which takes place after all scripts and stylesheets
-     * have been downloaded), that's why we listen for `DOMContentLoaded`, which takes place right after DOM has
-     * finished loading page elements.
-     * @returns {Promise}
+     * @param {string} url
+     * @param {function} callback
      */
-    waitForDOM() {
-        if (!this.pageLoadingPromise) {
-            // this is the first call; prepare the promise
-            this.pageLoadingPromise = new Promise(resolve => {
-                if (document.readyState === 'loading') {
-                    // document is still loading, so listen for event
-                    document.addEventListener("DOMContentLoaded", () => this.runDOMQueries(resolve));
+    function fetch(url, callback) {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.onreadystatechange = function () {
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 200) {
+                    callback(null, httpRequest.responseText);
                 } else {
-                    // we are past loading, at least "interactive" level, and that's just what we need
-                    this.runDOMQueries(resolve);
+                    callback(httpRequest.status);
                 }
-            });
+            }
+        };
+        httpRequest.open('GET', url);
+        httpRequest.send();
+    }
+
+    function fetchAndParseArticlesSummary() {
+        var
+            articleTemplate = document.querySelector('#article-template-container > li'),
+            articlesContainer = document.querySelector('#articles-container');
+
+        function addArticle(title, dateStr, description, url) {
+            var element = articleTemplate.cloneNode(true);
+            element.querySelector('.article-title').innerText = title;
+            element.querySelector('.article-date').innerText = dateStr;
+            element.querySelector('.article-description').innerText = description;
+            element.querySelector('.article-url').setAttribute('href', url);
+            articlesContainer.appendChild(element);
         }
-        // subsequent calls are just going to return the original promise, be it fulfilled or not
-        return this.pageLoadingPromise;
-    }
 
-    /**
-     * Run queries in the DOM.
-     * @param {Function} callback - function to be called after everything is done
-     */
-    runDOMQueries(callback) {
-        this.projectTemplate = document.querySelector('#project-template-container > div');
-        this.projectsContainer = document.querySelector('#projects-container');
-        this.articleTemplate = document.querySelector('#article-template-container > li');
-        this.articlesContainer = document.querySelector('#articles-container');
-        this.gistTemplate = document.querySelector('#gist-template-container > li');
-        this.gistsContainer = document.querySelector('#gists-container');
+        fetch('articles.data', function (errorCode, data) {
+            var
+                rawArticles;
 
-        callback();
-    }
+            if (errorCode) {
+                console.error('Problem fetching articles: HTTP ' + errorCode);
+                return;
+            }
 
-    /**
-     *
-     * @returns {void}
-     */
-    async fetchProjectsSummary() {
-        const data = await this.fetch('projects.data');
-        await this.waitForDOM();
-        this.parseProjects(data);
-    }
-
-    /**
-     *
-     * @returns {void}
-     */
-    async fetchArticlesSummary() {
-        const data = await this.fetch('articles.data');
-        await this.waitForDOM();
-        this.parseArticles(data);
-    }
-
-    /**
-     *
-     * @returns {void}
-     */
-    async fetchGists() {
-        const data = JSON.parse(await this.fetch('https://api.github.com/users/luciopaiva/gists'));
-        await this.waitForDOM();
-        this.parseGists(data);
-    }
-
-    /**
-     * Asynchronously fetch a file, returning its contents in plain text.
-     * @param {string} url - URL to fetch
-     * @returns {Promise} a promise to the response (upon success) or the XMLHttpRequest instance (in case of a failure)
-     */
-    async fetch(url) {
-        return new Promise((resolve, reject) => {
-            const httpRequest = new XMLHttpRequest();
-            httpRequest.onreadystatechange = () => {
-                if (httpRequest.readyState === XMLHttpRequest.DONE) {
-                    if (httpRequest.status === 200) {
-                        resolve(httpRequest.responseText);
-                    } else {
-                        reject(httpRequest);
-                    }
-                }
-            };
-            httpRequest.open('GET', url);
-            httpRequest.send();
+            rawArticles = data.split('\n\n').slice(0, MAX_ARTICLES);
+            rawArticles.forEach(function (rawArticle) {
+                addArticle.apply(null, rawArticle.split('\n'));
+            });
         });
     }
 
-    /**
-     * @param {{ description: string, url: string }[]} data
-     */
-    parseGists(data) {
-        if (!data || !(data.length > 0)) {
-            console.error('Empty list of gists');
-            return;
+    function fetchAndParseProjectsSummary() {
+        var
+            projectTemplate = document.querySelector('#project-template-container > div'),
+            projectsContainer = document.querySelector('#projects-container');
+
+        function addProject(title, url, description, imgUrl) {
+            var element = projectTemplate.cloneNode(true);
+            element.addEventListener('click', function () { window.location = url; });
+            element.querySelector('.project-image').style.background = 'url(' + imgUrl + ') center';
+            element.querySelector('.project-title').innerText = title;
+            element.querySelector('.project-description').innerText = description;
+            projectsContainer.appendChild(element);
         }
 
-        for (const gist of data.slice(0, this.maxGists)) {
-            this.addGist(gist.description, gist.html_url);
+        fetch('projects.data', function (errorCode, data) {
+            var
+                rawProjects;
+
+            if (errorCode) {
+                console.error('Problem fetching projects: HTTP ' + errorCode);
+                return;
+            }
+
+            rawProjects = data.split('\n\n').slice(0, MAX_PROJECTS);
+            rawProjects.forEach(function (rawProject) {
+                addProject.apply(null, rawProject.split('\n'));
+            });
+        });
+    }
+
+    function fetchAndParseGists() {
+        var
+            gistTemplate = document.querySelector('#gist-template-container > li'),
+            gistsContainer = document.querySelector('#gists-container');
+
+        function addGist(description, url) {
+            var element = gistTemplate.cloneNode(true);
+            element.querySelector('.gist-description').innerText = description;
+            element.querySelector('.gist-url').setAttribute('href', url);
+            gistsContainer.appendChild(element);
         }
 
-        console.info('Gists loaded: ' + data.length);
+        fetch('https://api.github.com/users/luciopaiva/gists', function (errorCode, data) {
+            /** @type {{ description: string, html_url: string }[]} */
+            var gists;
+
+            if (errorCode) {
+                console.error('Problem fetching gists: HTTP ' + errorCode);
+                return;
+            }
+
+            if (!data) {
+                console.error('Empty response fetching gists');
+                return;
+            }
+
+            gists = JSON.parse(data);
+
+            if (!Array.isArray(gists)) {
+                console.error('Unexpected response fetching gists');
+                return;
+            }
+
+            gists.slice(0, MAX_GISTS).forEach(function (gist) {
+                addGist(gist.description, gist.html_url);
+            });
+        });
     }
 
-    /**
-     * @param {string} description
-     * @param {string} url
-     */
-    addGist(description, url) {
-        const element = this.gistTemplate.cloneNode(true);
-        element.querySelector('.gist-description').innerText = description;
-        element.querySelector('.gist-url').setAttribute('href', url);
-        this.gistsContainer.appendChild(element);
+    function run() {
+        fetchAndParseArticlesSummary();
+        fetchAndParseProjectsSummary();
+        fetchAndParseGists();
     }
 
-    /**
-     * @param {string} data
-     */
-    parseArticles(data) {
-        const rawArticles = data.split('\n\n');
-        for (const rawArticle of rawArticles.slice(0, this.maxArticles)) {
-            const [title, dateStr, description, url] = rawArticle.split('\n');
-            this.addArticle(title, dateStr, description, url);
-        }
-        console.info('Articles loaded: ' + rawArticles.length);
-    }
-
-    /**
-     * @param {string} title
-     * @param {string} dateStr
-     * @param {string} description
-     * @param {string} url
-     */
-    addArticle(title, dateStr, description, url) {
-        const element = this.articleTemplate.cloneNode(true);
-        element.querySelector('.article-title').innerText = title;
-        element.querySelector('.article-date').innerText = dateStr;
-        element.querySelector('.article-description').innerText = description;
-        element.querySelector('.article-url').setAttribute('href', url);
-        this.articlesContainer.appendChild(element);
-    }
-
-    /**
-     * @param {string} data
-     */
-    parseProjects(data) {
-        const rawProjects = data.split('\n\n');
-        for (const rawProject of rawProjects.slice(0, this.maxProjects)) {
-            const [title, url, description, imgUrl] = rawProject.split('\n');
-            this.addProject(title, url, description, imgUrl);
-        }
-        console.info('Projects loaded: ' + rawProjects.length);
-    }
-
-    /**
-     * @param {string} title
-     * @param {string} url
-     * @param {string} description
-     * @param {string} imgUrl
-     */
-    addProject(title, url, description, imgUrl) {
-        const element = this.projectTemplate.cloneNode(true);
-        element.addEventListener('click', () => window.location = url);
-        element.querySelector('.project-image').style.background = `url(${imgUrl}) center`;
-        element.querySelector('.project-title').innerText = title;
-        element.querySelector('.project-description').innerText = description;
-        this.projectsContainer.appendChild(element);
-    }
-}
-
-// no need to wait for DOM to be loaded - let's fire Ajax downloads ASAP
-new HomePage();
+    run();
+})();
