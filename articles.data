@@ -3,12 +3,12 @@ Make Your Own Bootstrap-like Grid System
 Ever wondered how Bootstrap works to compose your page with rows and columns that fit so perfectly? This tutorial aims at demystifying how a grid system like Bootstrap works.
 articles/make-your-own-bootstrap-like-grid-system
 
-Find the next power of two
+Find the Next Power of Two
 2017-06-20
 Discusses some ways to calculate the next power of two of a number and which one is the most efficient
 articles/find-the-next-power-of-two
 
-The Beauty Behind These Pages
-2017-06-18
-In this article I explain how I made my personal home page using vanilla Javascript and GitHub Pages
-articles/the-beauty-behind-these-pages
+How to Make your Own Blog, Javascript Style
+2017-08-11
+In this article I give it a shot at how to make an SEO-aware, Markdown-driven personal blog using nothing more than a static web server and a little bit of Javascript
+articles/how-to-make-your-own-blog-javascript-style

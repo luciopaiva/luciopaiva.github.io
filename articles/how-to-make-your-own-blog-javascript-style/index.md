@@ -1,5 +1,5 @@
 
-# How to Make your Own Blog, Programmer Style
+# How to Make your Own Blog, Javascript Style
 
 Aug 11th, 2017
 
