@@ -5,7 +5,7 @@ June 25th, 2017
 
 Ever wondered how Bootstrap works to compose your page with rows and columns that fit so perfectly? This tutorial aims at demystifying how a grid system like Bootstrap works. After reading this article you'll be able to make your own, simple CSS script to reproduce with little effort what Bootstrap does to structure your page layout.
 
-![Final result](10.png)
+<img src="10.png" class="img-full" title="Final result">
 <p class="legend">This is what we will have in the end</p>
 
 [Bootstrap](http://getbootstrap.com) is what is popularly called a *grid system*. It was not the first one, but since its appearance circa 2012 it has been the dominant grid system used world-wide. Grid systems come to improve page layout construction, what in the past was usually done using table elements. Since the "*tableless* revolution", however, grid systems became increasingly popular and completely replaced the use of tables, which now most serious developers deem conceptually ugly and amateurish.
@@ -39,7 +39,7 @@ Also add a simple `container` div to our page body with some lorem ipsum text:
 
 Now load the page in a browser to see the result:
 
-![First container](1.jpeg)
+<img src="1.jpeg" class="img-full" title="First container">
 
 We have a div with width of 1200 px, but it is aligned to the left. Bootstrap pages are usually center-aligned in the browser. The proper way to center-align a div in CSS is to add auto margins to it:
 
@@ -51,7 +51,7 @@ We have a div with width of 1200 px, but it is aligned to the left. Bootstrap pa
 
 Now the page is properly centered:
 
-![Centered container](2.jpeg)
+<img src="2.jpeg" class="img-full" title="Centered container">
 
 ## Two-column layout
 
@@ -76,7 +76,7 @@ Width is set to be exactly half of its container's. I also justified text within
 
 Here's the result:
 
-![Two stacked columns](3.jpeg)
+<img src="3.jpeg" class="img-full" title="Two stacked columns">
 
 The columns actually appear stacked (the second column is highlighted in the screenshot so it can be identified); not exactly what one would expect. To fix that, we need to make divs float to the left:
 
@@ -87,7 +87,7 @@ The columns actually appear stacked (the second column is highlighted in the scr
         text-align: justify;
     }
 
-![Fixed two columns](4.jpeg)
+<img src="4.jpeg" class="img-full" title="Fixed two columns">
 
 And that's our first working column layout. Columns look like they need some padding, though; they are too close to each other.
 
@@ -106,7 +106,7 @@ Bootstrap adds a 30-pixel space between each pair of columns, so let's do the sa
 
 By adding 15 pixels to each side of each column, adjacent columns will total a 30px-width gutter between them. The result is frustrating, though:
 
-![Stacked columns again](3.jpeg)
+<img src="3.jpeg" class="img-full" title="Stacked columns again">
 
 The reason columns are stacked again is because they were already occupying 100% of the available width (50% + 50%), but now we added 60 more pixels to it (15px + first column + 15px + 15px + second column + 15px). As the combined width does not fit the container width, the second column breaks into a second row.
 
@@ -118,7 +118,7 @@ The trick to solve this issue involves a property called `box-sizing`. It tells 
 
 And now we have some beautiful two-column layout:
 
-![Two beautiful columns](5.jpeg)
+<img src="5.jpeg" class="img-full" title="Two beautiful columns">
 
 ## Three-column layout
 
@@ -149,7 +149,7 @@ Remember to add a third div to the HTML script:
 
 The result:
 
-![Three columns](6.png)
+<img src="6.png" class="img-full" title="Three columns">
 
 ## Twelve-column layout
 
@@ -207,7 +207,7 @@ Each one references the variable we created a few lines above, multiplying it by
 
 This is what we'll get:
 
-![Twelve column layout](7.png)
+<img src="7.png" class="img-full" title="Twelve column layout">
 
 Pretty neat, isn't it?
 
@@ -239,7 +239,7 @@ To achieve that, we need to define a `row` class. We want this new class to push
 
 Refresh our HTML page and here's our rows:
 
-![Two rows](8.png)
+<img src="8.png" class="img-full" title="Two rows">
 
 Notice the third column could have fit inside the remaining space in the first row, but it was "cleared" instead, appearing in a new row.
 
@@ -260,10 +260,10 @@ We are almost finished. Let's try just one more thing. Say we want that column i
     .col-offset-11 { margin-left: calc(var(--unit-width) * 11); }
     .col-offset-12 { margin-left: calc(var(--unit-width) * 12); }
 
-![Col offset](9.png)
+<img src="9.png" class="img-full" title="Col offset">
 
 And that's it! This concludes our journey through the basic functionality provided by a common grid system. Bear in mind that Bootstrap offers much more than that, like responsiveness (achieved via CSS *media queries*, a topic for another time) and beautiful, reusable components. We just scratched the surface here to have a basic understanding of how these systems work internally. Nonetheless, this is important knowledge even if you're just using Bootstrap, because sooner or later you will need to alter some of its default behaviors and knowing how it works under the hood is half the battle.
 
-![Final result](10.png)
+<img src="10.png" class="img-full" title="Final result">
 
 Check the CodePen with the whole code: https://codepen.io/luciopaiva/pen/pwWJGe
