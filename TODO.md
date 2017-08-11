@@ -11,4 +11,3 @@ Page features and improvements:
 - code tag in "the beauty behind these pages" is making layout break in mobile devices
 - consider building script pages offline instead of assembling them on the fly
   - less files to download
-  - it has to wait for d3 to be able to run Ajax
