@@ -5,6 +5,8 @@ Next articles:
 
 Page features and improvements:
 
+- add loading spinner and hide everything on the main page until content is fully loaded
+- add table of contents to the beginning of each article
 - add animated gifs to thumbnails of visualization projects
 - remember scroll position for when user refreshes page; browser is unable to remember it correctly because the contents are being loaded after the page has finished refreshing
 - marked: allow scrolling of pre tags instead of wrapping code
