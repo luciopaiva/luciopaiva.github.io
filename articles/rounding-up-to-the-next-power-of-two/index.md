@@ -117,7 +117,7 @@ Specifically for the Javascript case, let's test some variations of the constant
 
 ### The exponentiation operator
 
-`x ** y` is the ES7 exponentiation operator which is already available on the latest V8. But there's also the old way of doing exponentiation: the `Math.pow()` function. And if the base is 2, you can take a shortcut and use `1 << x` instead. Let's see how they compare in Benchmark.js:
+`x ** y` is the ES7 exponentiation operator which is already available on the latest V8. But there's also the old way of doing exponentiation: the `Math.pow()` function. And if the base is 2, you can take a shortcut and use `1 << x` instead. Let's see how they compare in Benchmark.js for an input value of `1 << 30`:
 
     [ 2 ** x         ] x 15,748,231 ops/sec ±0.39% (92 runs sampled)
     [ Math.pow(2, x) ] x 19,987,919 ops/sec ±0.41% (95 runs sampled)
@@ -143,7 +143,7 @@ But before benchmarking it, let's add some variations as well. There are three o
 - `x >>> 0`, a bitwise hack. Shifting 0 bits to the right is an old trick to get Javascript to convert x to an integer, since all bitwise operations convert operands to 32-bit integer values first. The difference between `>>` and `>>>` is that the latter zero-fills the number while right shifting, effectively converting it to a positive value by removing any fractional digits, i.e., by truncating it;
 - `~~x`, another bitwise hack that converts a value to its negated counterpart, and then back to the original value. In the process, though, the value is forced to a 32-bit integer, effectively truncating the original value.
 
-This is the resulting of comparing all five of them in Benchmark.js, ordered by speed, slowest to fastest:
+This is the resulting of comparing all five of them in Benchmark.js, ordered by speed, slowest to fastest with an input value of `1 << 30`:
 
     [ Math.trunc(x) ] x 22,354,086 ops/sec ±0.43% (92 runs sampled)
     [ Math.ceil(x)  ] x 23,510,240 ops/sec ±0.50% (90 runs sampled)
@@ -161,7 +161,34 @@ Finally, let's see how it compares when projected in that first chart:
 
 With the improvement, it now makes sense to use the constant time approach even for numbers as low as `1 << 8`, i.e., 256.
 
-And that closes our experiment. We first saw that `&` is cheaper than `%` and worth using if you're going to repeat it over and over during execution. Then we walked through several variations on how to compute the next power of two of a number and it showed us that constant time approaches will always win, unless you're working with very small numbers (i.e., numbers less than 256). And that's it for now. I intend to write more stuff about practical use of algorithm complexity soon. Feel free to suggest improvements or raise questions about this experiment.
+## Now for some legendary wizardry to blow your mind
+
+This is a very nice bit manipulation hack found on [Bit Twiddling Hacks](https://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2). It's originally written in C, but it fits nicely in Javascript as well. It also only makes sense for 32 bit values, but that's fine by us since all bitwise operations in Javascript end up by converting our input values to 32 bit integers anyway. So here it is:
+
+    function nextPowerOfTwoBitTwiddling(value) {
+        value--;
+        value |= value >>> 1;
+        value |= value >>> 2;
+        value |= value >>> 4;
+        value |= value >>> 8;
+        value |= value >>> 16;
+        value++;
+        return value;
+    }
+
+Its benchmark is just fantastic (always using an input value of `1 << 30`):
+
+    [ log n         ] x 7,603,760 ops/sec ±0.35% (95 runs sampled)
+    [ ~~x           ] x 24,833,968 ops/sec ±0.51% (93 runs sampled)
+    [ bit twiddling ] x 65,754,897 ops/sec ±1.09% (91 runs sampled)
+
+<img src="legendary.png" class="img-full" title="Projected legendary result">
+
+It proves to be faster for any input value, so we can just throw the O(log n) approach away! Amazing stuff.
+
+And that closes our experiment. We first saw that `&` is cheaper than `%` and worth using if you're going to repeat it over and over during execution. Then we walked through several variations on how to compute the next power of two of a number and it showed us that constant time approaches will always win in the long run. We then finally saw the hack for 32 bit values that ended any possibility of us still wanting to use the O(log n) approach for lower values.
+
+That's it for now. I intend to write more stuff about practical use of algorithm complexity soon. Feel free to suggest improvements or raise questions about this experiment.
 
 ## Small note about jsPerf and Benchmark.js
 
@@ -256,6 +283,17 @@ And here's the source for the second part, comparing techniques for finding the 
         return 1 << (log2 === log2Trunc ? log2Trunc : log2Trunc + 1);
     }
 
+    function nextPowerOfTwoBitTwiddling(value) {
+        value--;
+        value |= value >>> 1;
+        value |= value >>> 2;
+        value |= value >>> 4;
+        value |= value >>> 8;
+        value |= value >>> 16;
+        value++;
+        return value;
+    }
+
     suite
         .add('[ log n         ]', nextPowerOfTwoLogN.bind(null, NUMBER_TO_CHECK))
         .add('[ constant      ]', nextPowerOfTwoCeilConstant.bind(null, NUMBER_TO_CHECK))
@@ -265,6 +303,7 @@ And here's the source for the second part, comparing techniques for finding the 
         .add('[ Math.trunc(x) ]', nextPowerOfTwoCeilConstantV5.bind(null, NUMBER_TO_CHECK))
         .add('[ x >>> 0       ]', nextPowerOfTwoCeilConstantV6.bind(null, NUMBER_TO_CHECK))
         .add('[ ~~x           ]', nextPowerOfTwoCeilConstantV7.bind(null, NUMBER_TO_CHECK))
+        .add('[ bit twiddling ]', nextPowerOfTwoBitTwiddling.bind(null, NUMBER_TO_CHECK))
         .on('cycle', function(event) {
             console.info(String(event.target));
         })
