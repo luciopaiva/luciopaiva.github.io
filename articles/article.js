@@ -24,7 +24,7 @@
     function parseMarkdown(rawData) {
         marked.setOptions({
             highlight: function (code) {
-                hljs.highlightAuto(code).value
+                return hljs.highlightAuto(code).value;
             }
         });
         return marked(rawData);
@@ -40,7 +40,7 @@
         contentsElement.innerHTML = parsedMarkdown;
 
         // marked does not let Highlight.js add `hljs` class to pre elements as it should
-        contentsElement.querySelectorAll('pre').forEach(function (pre) {
+        contentsElement.querySelectorAll('pre code').forEach(function (pre) {
             pre.classList.add('hljs');
         });
 

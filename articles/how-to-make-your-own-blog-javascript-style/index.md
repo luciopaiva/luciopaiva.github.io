@@ -42,7 +42,7 @@ Well, since this is mostly a programming web site, we may also want to parse and
 `hljs` is the global variable exported by Highlight.js. What you have to do is register a callback for when Marked detects code which could undergo syntax highlighting. Although it works pretty well, there's one glitch I had to fix regarding `pre` elements' background color. As Marked hands only the *contents* of `pre` tags to the highlighter, the highlighter is not able to modify `pre` tags' *attributes*. This means Highlight.js can't add `hljs` class to `pre` elements and its CSS script is then not able to properly add a background color to them. To fix this, I had to write the following patch inside my Javascript file, right after Marked executed:
 
     // marked does not let Hightlight.js add `hljs` class to pre elements as it should
-    contentsElement.querySelectorAll('pre').forEach(function (pre) {
+    contentsElement.querySelectorAll('pre code').forEach(function (pre) {
         pre.classList.add('hljs');
     });
 
