@@ -26,7 +26,7 @@
     <meta name="msapplication-TileImage" content="./favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
 
-    <link rel="stylesheet" href="lib/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="lib/bootstrap.min.css">-->
     <link rel="stylesheet" href="index.css">
 
     <script>
@@ -40,7 +40,61 @@
 </head>
 <body>
 
-<div class="container">
+<header>
+    <nav>
+        <img src="img/avatar.jpg" alt="Lucio Paiva" style="vertical-align: middle">
+        <h1>Lucio Paiva</h1>
+        <a href="#projects">Projects</a>
+        <a href="about">About</a>
+    </nav>
+</header>
+
+<main>
+    <section id="articles">
+        <h2>Articles</h2>
+    </section>
+    <section id="projects">
+        <h2>Projects</h2>
+    </section>
+</main>
+
+<footer>
+    <p>Lucio Paiva, 2017</p>
+    <a href="https://github.com/luciopaiva/luciopaiva.github.io">View source</a>
+</footer>
+
+<div class="hidden">
+    <div id="article-template">
+        <article class="article">
+            <a href="" class="article-url">
+            <h3 class="article-title"></h3>
+            <p class="article-description"></p>
+            <p class="article-date"></p>
+            </a>
+        </article>
+    </div>
+
+    <div id="project-template">
+        <article class="project">
+            <div class="project-image"></div>
+            <div class="project-caption">
+                <h3 class="project-title"></h3>
+                <p class="project-description"></p>
+            </div>
+        </article>
+    </div>
+
+
+    <ul id="xarticle-template-container">
+        <!-- article template -->
+        <li class="list-group-item"><a href="" class="article-url article-title"></a>
+            <span class="small pull-right article-date"></span><br>
+            <em><small class="article-description"></small></em>
+        </li>
+    </ul>
+</div>
+
+<div class="container" style="display: none">
 
     <!-- page header -->
     <header class="row header-row">
@@ -87,7 +141,7 @@
                 <div class="col-md-12">
                     <h2>Latest Articles</h2>
 
-                    <ul id="articles-container" class="list-unstyled list-group-articles">
+                    <ul id="xarticles-container" class="list-unstyled list-group-articles">
                         <!-- articles go here -->
                     </ul>
                 </div>
@@ -130,7 +184,7 @@
     </footer>
 </div>
 
-<div class="hidden templates">
+<div class="hidden templates" style="display: none">
     <div id="project-template-container">
         <!-- project thumbnail template -->
         <div class="col-lg-4 col-sm-6 col-xs-12">
@@ -144,7 +198,7 @@
         </div>
     </div>
 
-    <ul id="article-template-container">
+    <ul id="xxarticle-template-container">
         <!-- article template -->
         <li class="list-group-item"><a href="" class="article-url article-title"></a>
             <span class="small pull-right article-date"></span><br>

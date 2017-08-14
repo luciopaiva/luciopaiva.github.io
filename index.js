@@ -28,8 +28,8 @@
 
     function fetchAndParseArticlesSummary() {
         var
-            articleTemplate = document.querySelector('#article-template-container > li'),
-            articlesContainer = document.querySelector('#articles-container');
+            articleTemplate = document.querySelector('#article-template > article'),
+            articlesContainer = document.querySelector('#articles');
 
         function addArticle(title, dateStr, description, url) {
             var element = articleTemplate.cloneNode(true);
@@ -58,8 +58,8 @@
 
     function fetchAndParseProjectsSummary() {
         var
-            projectTemplate = document.querySelector('#project-template-container > div'),
-            projectsContainer = document.querySelector('#projects-container');
+            projectTemplate = document.querySelector('#project-template > article'),
+            projectsContainer = document.querySelector('#projects');
 
         function addProject(title, url, description, imgUrl) {
             var element = projectTemplate.cloneNode(true);
@@ -128,7 +128,7 @@
     function run() {
         fetchAndParseArticlesSummary();
         fetchAndParseProjectsSummary();
-        fetchAndParseGists();
+        // fetchAndParseGists();
     }
 
     run();
