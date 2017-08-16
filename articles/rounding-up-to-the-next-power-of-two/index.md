@@ -176,6 +176,20 @@ This is a very nice bit manipulation hack found on [Bit Twiddling Hacks](https:/
         return value;
     }
 
+But what the hell is going on here?! The best way is to run some example to illustrate. For instance, let us consider the binary value: `10000001`. Here's what happens:
+
+     10000000  // value--
+     11000000  // value |= value >>> 1
+     11110000  // value |= value >>> 2
+     11111111  // value |= value >>> 4
+     11111111  // value |= value >>> 8
+     11111111  // value |= value >>> 16
+    100000000  // value++
+
+The series of SHIFT+OR operations are there just to fill in with `1`s (in a very smart and efficient way) any existing `0`s in the original value that would appear to the right of the leftmost `1`. In the end, the whole original value will be completely covered with `1`s (but again, only to the right of the leftmost `1`). The final increment operation then finally rounds the value to the next power of two, which is easy to see since we're working in binary after all!
+
+The last remaining mystery then becomes the initial decrement operation. The beauty behind it lies in the fact that the decrement doesn't spoil our original value if it isn't a power of two, but it actually *prepares* it if it is. In case the original value is already a power of two, the decrement operation works to cancel out the operations that follow and that would've otherwise spoiled our power of two. If it wasn't for the decrement operation, we would return the next power of two instead, and not the input value, which was our intended power of two. Beautiful, isn't it? All with just 2 arithmetic operations plus 10 logical ones.
+
 Its benchmark is just fantastic (always using an input value of `1 << 30`):
 
     [ log n         ] x 7,603,760 ops/sec ±0.35% (95 runs sampled)
