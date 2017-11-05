@@ -1,6 +1,8 @@
 
 # D3 Brush Tutorial
 
+Aug 17th, 2017
+
 This tutorial explains what's the purpose of and how to use D3 brushes. A brush adds a movable/resizable rectangle to a
 SVG element. It's very useful, among other uses, for when you want to visually select a portion of data in your data
 set.
