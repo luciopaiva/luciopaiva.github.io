@@ -100,7 +100,12 @@ h2 {
     margin: 9px;
 }
 
-.thumbnail .project-image:hover {
+.thumbnail h3 {
+    margin-top: 0;
+}
+
+.thumbnail p {
+    font-size: 90%;
 }
 
 .list-group-articles li, .list-group-gists li {
