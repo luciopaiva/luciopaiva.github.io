@@ -64,7 +64,7 @@
         function addProject(title, url, description, imgUrl) {
             var element = projectTemplate.cloneNode(true);
             element.addEventListener('click', function () { window.location = url; });
-            element.querySelector('.project-image').style.background = 'url(' + imgUrl + ') center';
+            element.querySelector('.project-image').style.background = 'url(' + imgUrl + ') center no-repeat';
             element.querySelector('.project-title').innerText = title;
             element.querySelector('.project-description').innerText = description;
             projectsContainer.appendChild(element);

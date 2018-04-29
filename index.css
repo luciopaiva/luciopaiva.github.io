@@ -1,7 +1,11 @@
 
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 body {
     font-size: 16px;
     line-height: 1.6;
+    font-family: 'Roboto', sans-serif;
+    background-color: #fbfbfb;
 }
 
 h1 {
@@ -82,18 +86,12 @@ h2 {
     flex-wrap: wrap;
     width: 100%;
     cursor: pointer;
-}
-
-@media (min-width: 992px) {
-    .thumbnail {
-        filter: grayscale(100%);
-    }
+    background-color: #fbfbfb;
 }
 
 .thumbnail:hover {
     box-shadow: 1px 1px 20px 0 #ccc;
     border: 1px solid white;
-    filter: grayscale(0%);
 }
 
 .thumbnail .project-image {
@@ -110,7 +108,7 @@ h2 {
 }
 
 .article-description {
-    margin-left: 40px;
+    margin-left: 20px;
     display: block;
 }
 
