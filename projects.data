@@ -1,24 +1,74 @@
+Witchcraft
+https://github.com/luciopaiva/witchcraft
+Chrome extension to inject JS and CSS into any page - think Greasemonkey for developers
+img/witchcraft.png
+
 Particles
-https://luciopaiva.github.io/particles/
+http://luciopaiva.com/particles
 A simulation of thousands of particles using a custom quad-tree structure
-img/particles.jpeg
-
-Divide or Blow
-https://luciopaiva.github.io/divide-or-blow/
-A remake of a very simple game I used to play as a kid, made in plain JS
-img/divide-or-blow.jpeg
-
-Epoch
-https://luciopaiva.github.io/epoch/
-An experimental timeline made with D3
-img/epoch.jpeg
+img/particles.png
 
 Ingresso
 https://github.com/luciopaiva/ingresso
-Interactive crawler for ingresso.com movie sessions
-img/ingresso.jpeg
+Interactive crawler for ingresso.com movie sessions made in Node.js
+img/ingresso.png
+
+Flow field
+https://luciopaiva.com/flow-field
+Simulating ten thousand particles using HTML5 canvas and no GPU acceleration
+img/flow-field.png
+
+Karplus-Strong
+http://luciopaiva.com/karplus
+Using web audio processor node to test Karplus-Strong string synthesis
+img/karplus.png
+
+Perceptron
+http://luciopaiva.com/perceptron
+Simple implementation of a perceptron running linear classification
+img/perceptron.png
+
+Climb
+http://luciopaiva.com/climb
+Compare some of the most famous cycling climbs using D3.js
+img/climb.jpeg
+
+Divide or Blow
+http://luciopaiva.com/divide-or-blow
+A remake of a very simple game I used to play as a kid, made in plain JS
+img/divide-or-blow.png
+
+Epoch
+http://luciopaiva.com/epoch
+Experimental timeline web app made with D3.js
+img/epoch.png
 
 GPX Elevation Gain Analyzer
-https://luciopaiva.github.io/gpx/
+http://luciopaiva.com/gpx
 Parses elevation gain and compares it with data from Google Maps API
-img/gpx.jpeg
+img/gpx.png
+
+FIT File Analyzer
+http://luciopaiva.com/fit
+Experimental FIT file analyzer web app totally written in Javascript
+img/fit.jpeg
+
+Mouse Test
+http://luciopaiva.com/mouse
+Simple and stupid web app to help testing malfunctioning mouses
+img/mouse.jpeg
+
+prep
+https://github.com/luciopaiva/prep
+CLI tool to filter and replace text using regular expressions
+img/prep.png
+
+Boleto
+http://luciopaiva.com/boleto
+Custom-made HTML input box mask experiment
+img/boleto.jpeg
+
+Climate Change Calculator
+http://luciopaiva.com/climate-change
+Is global warming really human made? (a work in progress)
+img/climate.jpeg
