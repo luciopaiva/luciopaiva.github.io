@@ -1,79 +1,109 @@
-Rock Paper Automata
-http://luciopaiva.com/rock-paper-automata
-Fun with cellular automata
-img/rock-paper.png
-
 Witchcraft
-http://luciopaiva.com/witchcraft
+//luciopaiva.com/witchcraft
 Chrome extension to inject JS and CSS into any page - think Greasemonkey for developers
 img/witchcraft.png
 
+Noise
+//luciopaiva.com/noise
+Experimenting with terrain generation
+img/noise.png
+
+Câmbio
+//luciopaiva.com/cambio
+Electron app to query JSON API and show exchange rates in system tray
+img/cambio.png
+
+Prime Spiral
+//luciopaiva.com/spiral
+An Archimedean spiral of primes
+img/spiral.png
+
+Domino Tiling
+//luciopaiva.com/dominoes
+Experiment with domino placement
+img/dominoes.png
+
+Rock Paper Automata
+//luciopaiva.com/rock-paper-automata
+Fun with cellular automata
+img/rock-paper.png
+
+World Cup
+//luciopaiva.com/world-cup
+A tree showing 2018 cup match results grouped by scores
+img/world-cup.png
+
+Gear Ratios
+//luciopaiva.com/gear
+Calculate your bicycle gear ratios online
+img/gear.png
+
 Particles
-http://luciopaiva.com/particles
+//luciopaiva.com/particles
 A simulation of thousands of particles using a custom quad-tree structure
 img/particles.png
 
 Ingresso
-https://github.com/luciopaiva/ingresso
+//github.com/luciopaiva/ingresso
 Interactive crawler for ingresso.com movie sessions made in Node.js
 img/ingresso.png
 
 Flow field
-http://luciopaiva.com/flow-field
+//luciopaiva.com/flow-field
 Simulating ten thousand particles using HTML5 canvas and no GPU acceleration
 img/flow-field.png
 
 Karplus-Strong
-http://luciopaiva.com/karplus
+//luciopaiva.com/karplus
 Using web audio processor node to test Karplus-Strong string synthesis
 img/karplus.png
 
 Perceptron
-http://luciopaiva.com/perceptron
+//luciopaiva.com/perceptron
 Simple implementation of a perceptron running linear classification
 img/perceptron.png
 
 Climb
-http://luciopaiva.com/climb
+//luciopaiva.com/climb
 Compare some of the most famous cycling climbs using D3.js
 img/climb.jpeg
 
 Divide or Blow
-http://luciopaiva.com/divide-or-blow
+//luciopaiva.com/divide-or-blow
 A remake of a very simple game I used to play as a kid, made in plain JS
 img/divide-or-blow.png
 
 Epoch
-http://luciopaiva.com/epoch
+//luciopaiva.com/epoch
 Experimental timeline web app made with D3.js
 img/epoch.png
 
 GPX Elevation Gain Analyzer
-http://luciopaiva.com/gpx
+//luciopaiva.com/gpx
 Parses elevation gain and compares it with data from Google Maps API
 img/gpx.png
 
 FIT File Analyzer
-http://luciopaiva.com/fit
+//luciopaiva.com/fit
 Experimental FIT file analyzer web app totally written in Javascript
 img/fit.jpeg
 
 Mouse Test
-http://luciopaiva.com/mouse
+//luciopaiva.com/mouse
 Simple and stupid web app to help testing malfunctioning mice
 img/mouse.jpeg
 
 prep
-https://github.com/luciopaiva/prep
+//github.com/luciopaiva/prep
 CLI tool to filter and replace text using regular expressions
 img/prep.png
 
 Boleto
-http://luciopaiva.com/boleto
+//luciopaiva.com/boleto
 Custom-made HTML input box mask experiment
 img/boleto.jpeg
 
 Climate Change Calculator
-http://luciopaiva.com/climate-change
+//luciopaiva.com/climate-change
 Is global warming really human made? (a work in progress)
 img/climate.jpeg
