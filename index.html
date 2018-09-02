@@ -554,22 +554,24 @@
 </div>
 
 <script>
+    // Beware! Do not use modern Javascript here otherwise crawlers might decide not to crawl it
+
     (function () {
         function copyAltToTile() {
-            const imgs = document.querySelectorAll("img");
-            for (const img of imgs) {
-                const description = img.getAttribute("alt");
+            var imgs = document.querySelectorAll("img");
+            imgs.forEach(function (img) {
+                var description = img.getAttribute("alt");
                 if (description) {
                     img.setAttribute("title", description);
                 }
-            }
+            });
         }
 
-        const isTouchDevice = (function() {
+        var isTouchDevice = (function() {
             // algorithm taken from https://stackoverflow.com/a/4819886/778272
 
-            const prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
-            const mq = query => window.matchMedia(query).matches;
+            var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
+            var mq = query => window.matchMedia(query).matches;
 
             if (("ontouchstart" in window) || window.DocumentTouch && document instanceof DocumentTouch) {
                 return true;
@@ -584,15 +586,15 @@
         // since one can't click on mobile devices, let's make the card flip when touching and add a pop-out button for
         // the actual link
         function changeAnchorsForMobile() {
-            const anchors = document.querySelectorAll("a.tile");
-            for (const a of anchors) {
-                a.addEventListener("click", event => event.preventDefault());  // do not follow link
-                const back = a.querySelector(".back");
+            var anchors = document.querySelectorAll("a.tile");
+            anchors.forEach(function (a) {
+                a.addEventListener("click", function (event) { event.preventDefault() });  // do not follow link
+                var back = a.querySelector(".back");
                 if (back) {
-                    const popOutLink = document.createElement("a");
+                    var popOutLink = document.createElement("a");
                     popOutLink.setAttribute("href", a.getAttribute("href"));
                     popOutLink.setAttribute("target", a.getAttribute("_blank"));
-                    const popOutImg = document.createElement("img");
+                    var popOutImg = document.createElement("img");
                     popOutImg.classList.add("pop-out");
                     popOutImg.setAttribute("src", "img/pop-out.svg");
                     popOutLink.appendChild(popOutImg);
@@ -601,7 +603,7 @@
                         event.cancelBubble = true;
                     });
                 }
-            }
+            });
         }
 
         copyAltToTile();
