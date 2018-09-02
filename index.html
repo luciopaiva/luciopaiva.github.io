@@ -36,15 +36,18 @@
             font-family: "Cabin Sketch";
             src: url(font/CabinSketch-Regular.ttf);
         }
+        html {
+            overflow-x: hidden;
+        }
         html, body {
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
         }
         body {
             background-color: #323232;
             line-height: 1;
             font-family: "Cabin Sketch", monospace;
+            overflow-y: hidden;
         }
         .tiles-container {
             display: flex;
@@ -119,6 +122,9 @@
             transform-style: preserve-3d;
         }
         .tile:hover .card, .tile:active .card {
+            transform: rotateY(180deg);
+        }
+        .card.flipped {  /* used for the javascript initial flipping animation */
             transform: rotateY(180deg);
         }
         .front, .back {
@@ -616,10 +622,35 @@
             });
         }
 
+        var cards;
+
+        function flipAllCards() {
+            cards = document.querySelectorAll(".card");
+            if (cards) {
+                cards.forEach(function (card) {
+                    card.classList.add("flipped");
+                });
+            }
+        }
+
+        function unflipAllCards() {
+            if (cards) {
+                var waitingTime = 100;
+                var delta = Math.floor(1000 / cards.length);
+                cards.forEach(function (card) {
+                    card.classList.add("flipped");
+                    setTimeout(function () { card.classList.remove("flipped"); }, waitingTime);
+                    waitingTime += delta;
+                });
+            }
+        }
+
         copyAltToTile();
         if (isTouchDevice) {
             changeAnchorsForMobile();
         }
+        flipAllCards();
+        window.addEventListener("load", unflipAllCards);
     })();
 </script>
 
