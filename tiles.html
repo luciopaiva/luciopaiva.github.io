@@ -30,7 +30,6 @@
             box-sizing: border-box;
             --tile-ratio: calc(168 / 202);
             --tile-width: 202px;
-            --tile-margin: 4px;
         }
 
         @font-face {
@@ -54,8 +53,7 @@
             justify-content: center;
             align-content: flex-start;
 
-            max-width: calc(5 * (2 * var(--tile-margin) + var(--tile-width)));  /* limit number of tiles per row by 5 */
-            margin: var(--tile-margin) auto auto auto;
+            margin: auto;
             width: 100%;  /* don't use 100vw because it doesn't work well with scrollbars; use percent instead */
             padding: 0;
         }
@@ -97,10 +95,6 @@
         .tile-padding-3 {
             display: none;
             background-color: #d9d9d9;
-        }
-        .tile-padding-4 {
-            display: none;
-            background-color: #f8f8f8;
         }
         .tile.social {
             display: flex;
@@ -163,7 +157,7 @@
             margin: 0;
             width: 100%;
         }
-        img.pop-out {
+        img.pop-out {  /* added via javascript to mobile devices only */
             width: 32px;
             position: absolute;
             bottom: 10px;
@@ -192,6 +186,11 @@
             .tile {
                 width: 202px;
                 height: 168px;
+            }
+            .tiles-container {
+                --tile-margin: 4px;
+                max-width: calc(5 * (2 * var(--tile-margin) + var(--tile-width)));  /* limit number of tiles per row by 5 */
+                margin: var(--tile-margin) auto auto auto;
             }
         }
 
@@ -257,8 +256,7 @@
             </div>
             <div class="back">
                 <h1>Witchcraft</h1>
-                <p>Chrome extension to inject JS and CSS into any page. Think Greasemonkey for more advanced users.</p>
-                <img class="pop-out" src="img/pop-out.svg" alt="Open in a new window">
+                <p>Chrome extension to inject JS and CSS into any page. Think Greasemonkey for advanced users.</p>
             </div>
         </div>
     </a>
@@ -513,8 +511,6 @@
 
         <div class="card">
             <div class="front code">
-                <!--<p>cat input.txt | ./rows -x '^$|idgm' | ./cols '^(\S+)\s+\S+\s+(\d+).*$' '\1\t\2'</p>-->
-                <!--<p>cols and rows</p>-->
                 <img src="img/cols-and-rows.png" alt="cols and rows">
             </div>
             <div class="back">
@@ -560,13 +556,6 @@
             }
         }
 
-        function removePopOutButtons() {
-            const popouts = document.querySelectorAll(".pop-out");
-            for (const popout of popouts) {
-                popout.remove();
-            }
-        }
-
         const isTouchDevice = (function() {
             // algorithm taken from https://stackoverflow.com/a/4819886/778272
 
@@ -583,14 +572,24 @@
             return mq(query);
         })();
 
-        function anchorsShouldFlip() {
+        // since one can't click on mobile devices, let's make the card flip when touching and add a pop-out button for
+        // the actual link
+        function changeAnchorsForMobile() {
             const anchors = document.querySelectorAll("a.tile");
             for (const a of anchors) {
-                const card = a.querySelector(".card");
-                if (card) {
-                    a.addEventListener("click", function (event) {
-                        event.preventDefault();
-                        // card.classList.toggle("flipped");
+                a.addEventListener("click", event => event.preventDefault());  // do not follow link
+                const back = a.querySelector(".back");
+                if (back) {
+                    const popOutLink = document.createElement("a");
+                    popOutLink.setAttribute("href", a.getAttribute("href"));
+                    popOutLink.setAttribute("target", a.getAttribute("_blank"));
+                    const popOutImg = document.createElement("img");
+                    popOutImg.classList.add("pop-out");
+                    popOutImg.setAttribute("src", "img/pop-out.svg");
+                    popOutLink.appendChild(popOutImg);
+                    back.appendChild(popOutLink);
+                    popOutLink.addEventListener("click", function (event) {
+                        event.cancelBubble = true;
                     });
                 }
             }
@@ -598,9 +597,7 @@
 
         copyAltToTile();
         if (isTouchDevice) {
-            anchorsShouldFlip();
-        } else {
-            removePopOutButtons();
+            changeAnchorsForMobile();
         }
     })();
 </script>
