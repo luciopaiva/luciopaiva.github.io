@@ -98,10 +98,10 @@ Mouse Test
 Simple and stupid web app to help testing malfunctioning mice
 img/mouse.jpeg
 
-prep
-//github.com/luciopaiva/prep
+cols + rows
+//github.com/luciopaiva/cols-and-rows
 CLI tool to filter and replace text using regular expressions
-img/prep.png
+img/cols-and-rows.png
 
 Boleto
 //luciopaiva.com/boleto
