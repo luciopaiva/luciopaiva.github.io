@@ -557,6 +557,16 @@
     // Beware! Do not use modern Javascript here otherwise crawlers might decide not to crawl it
 
     (function () {
+        // this is all non-vital code; this page is made so that everything that matters doesn't need javascript
+
+        // https://stackoverflow.com/a/20084661/778272
+        if (/bot|googlebot|crawler|spider|robot|crawling/i.test(navigator.userAgent)) {
+            return;  // please do not proceed if you're a bot
+        }
+        if (!("querySelectorAll" in document)) {
+            return;  // attempt at preventing any crawlers that passed through from breaking when parsing this page
+        }
+
         function copyAltToTile() {
             var imgs = document.querySelectorAll("img");
             imgs.forEach(function (img) {
