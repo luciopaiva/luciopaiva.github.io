@@ -1,27 +1,140 @@
+<!-- this is a nice javascript hack to redirect typos to correct project urls -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Lucio Paiva</title>
+    <style>
+        body {
+            background-color: #3b3b3b;
+            color: #b3b3b3;
+        }
+    </style>
 </head>
 <body>
+Redirecting...
+
 <script>
 (function () {
-    var path = window.location.pathname;
+    "use strict";
+    // only ES5 so crawlers like google bot don't break
 
-    var routes = {
-        // markdown toc
-        "/mdtoc": "/markdown-toc",
-        "/md-toc": "/markdown-toc",
-        "/markdown": "/markdown-toc",
-        "/toc": "/markdown-toc"
-    };
+    var projectByAlias = {};
+    var homepage = "https://luciopaiva.com/";
+    var github = "https://github.com/luciopaiva/";
 
-    if (path in routes) {
-        window.location.pathname = routes[path];
-    } else {
-        window.location = "https://luciopaiva.com";
+    // prefix project names with @ if they should take to the github page instead
+    function projectsAndAliases() {/*
+        markdown-toc md-toc markdown toc
+        witchcraft
+        galton galtonboard
+        noise
+        leaflet-terrain leaflet terrain
+        @cambio
+        spiral primespiral prime primes
+        dominoes dominotiling dominotiles domino dominos
+        rock-paper-automata rockpaper rock
+        world-cup
+        gear
+        particles
+        @ingresso
+        flow-field
+        karplus
+        automaton-lab
+        perceptron
+        climb
+        divide-or-blow
+        epoch
+        gpx
+        fit fitfile
+        mouse
+        @prep
+        boleto
+        climate-change
+        @janitor
+    */}
+
+    function addAlias(project, alias) {
+        if (alias in projectByAlias) {
+            console.error("Alias clash! Projects `" + projectByAlias[alias] + "` and `" + project +
+                "` have the same alias `" + alias + "`");
+        } else {
+            projectByAlias[alias] = project;
+        }
     }
+
+    function canonical(name) {
+        return name.toLocaleLowerCase().replace(/[^a-z0-9]/g, "");
+    }
+
+    function init() {
+        var rawProjectsAndAliases = projectsAndAliases.toString().split("\n");
+        rawProjectsAndAliases = rawProjectsAndAliases.slice(1, rawProjectsAndAliases.length - 1);
+        rawProjectsAndAliases.forEach(function (rawProject) {
+            var projectAndAliases = rawProject.replace(/^\s+|\s+$/g, "").split(/\s+/);
+
+            var project = projectAndAliases[0];
+            var aliases = projectAndAliases.slice(1);
+
+            aliases.forEach(function (alias) {
+                addAlias(project, alias);
+            });
+
+            // add custom alias: project name without dashes
+            var projectWithNoDashes = canonical(project);
+            if (project !== projectWithNoDashes) {
+                addAlias(project, projectWithNoDashes);
+            }
+        });
+
+        console.info(projectByAlias);
+    }
+
+    // try and map 404 locations to actual project urls
+    function requestPathToProjectUrl(pathname) {
+        var alias = canonical(pathname);
+        var project = projectByAlias[alias];
+        if (project) {
+            if (project[0] === "@") {
+                return github + project.substr(1);
+            } else {
+                return homepage + project;
+            }
+        }
+        return null;
+    }
+
+    function redirect(pathname) {
+        var url = requestPathToProjectUrl(pathname);
+
+        if (url) {
+            window.location = url;
+        } else {
+            // no matching project - redirect to home page
+            window.location = homepage;
+        }
+    }
+
+    function test(path, expected) {
+        var actual = requestPathToProjectUrl(path);
+        if (actual === expected) {
+            console.info("'" + path + "': '" + expected + "' %c" + "PASSED", "color: green");
+        } else {
+            console.info("'" + path + "': saw '" + actual + "', expected '" + expected + "' %c" + "FAILED", "color: red");
+        }
+    }
+
+    function runTests() {
+        test("/foo", null);
+        test("/galton-board", homepage + "galton");
+        test("/fit-file", homepage + "fit");
+        test("/markdown", homepage + "markdown-toc");
+        test("/jan-itor", github + "janitor");
+    }
+
+    init();
+    // runTests();
+    redirect(window.location.pathname);
 })();
 </script>
 </body>
