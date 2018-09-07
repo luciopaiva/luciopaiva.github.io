@@ -19,21 +19,24 @@ Redirecting...
     "use strict";
     // only ES5 so crawlers like google bot don't break
 
+    var separators = /[^a-z0-9]/g;
+    var projectByInitials = {};
     var projectByAlias = {};
     var homepage = "https://luciopaiva.com/";
     var github = "https://github.com/luciopaiva/";
 
     // prefix project names with @ if they should take to the github page instead
+    // first token is project name, rest is list of aliases
     function projectsAndAliases() {/*
         markdown-toc md-toc markdown toc
         witchcraft
         galton galtonboard
         noise
-        leaflet-terrain leaflet terrain
+        leaflet-terrain
         @cambio
-        spiral primespiral prime primes
-        dominoes dominotiling dominotiles domino dominos
-        rock-paper-automata rockpaper rock
+        spiral primespiral
+        dominoes dominotiling dominotiles
+        rock-paper-automata
         world-cup
         gear
         particles
@@ -64,9 +67,16 @@ Redirecting...
     }
 
     function canonical(name) {
-        return name.toLocaleLowerCase().replace(/[^a-z0-9]/g, "");
+        return name.toLocaleLowerCase().replace(separators, "");
     }
 
+    function generateInitials(originalName) {
+        var name = originalName[0] === "@" ? originalName.substr(1) : originalName;
+        var initials = name.split(separators).map(function (part) { return part[0] }).join("");
+        projectByInitials[initials] = originalName;
+    }
+
+    // parse list of aliases for each project, generate other automatic aliases and build map
     function init() {
         var rawProjectsAndAliases = projectsAndAliases.toString().split("\n");
         rawProjectsAndAliases = rawProjectsAndAliases.slice(1, rawProjectsAndAliases.length - 1);
@@ -75,6 +85,8 @@ Redirecting...
 
             var project = projectAndAliases[0];
             var aliases = projectAndAliases.slice(1);
+
+            generateInitials(project);
 
             aliases.forEach(function (alias) {
                 addAlias(project, alias);
@@ -86,21 +98,65 @@ Redirecting...
                 addAlias(project, projectWithNoDashes);
             }
         });
+    }
 
-        console.info(projectByAlias);
+    function projectToUrl(project) {
+        if (project[0] === "@") {
+            return github + project.substr(1);
+        } else {
+            return homepage + project;
+        }
+    }
+
+    // check if all needle's characters can be found among haystack's
+    function looseMatch(needle, haystack) {
+        var needleIndex = 0;
+        var haystackIndex = 0;
+
+        while (haystackIndex < haystack.length) {
+            if (haystack[haystackIndex] === needle[needleIndex]) {
+                needleIndex++;
+            }
+            haystackIndex++;
+        }
+
+        return needleIndex === needle.length;  // check if needle was completely found
     }
 
     // try and map 404 locations to actual project urls
     function requestPathToProjectUrl(pathname) {
-        var alias = canonical(pathname);
-        var project = projectByAlias[alias];
+        var query = canonical(pathname);
+
+        if (query.length === 0) {
+            return null;
+        }
+
+        // try matching alias
+        var project = projectByAlias[query];
         if (project) {
-            if (project[0] === "@") {
-                return github + project.substr(1);
-            } else {
-                return homepage + project;
+            return projectToUrl(project);
+        }
+
+        var i;
+
+        // try matching against project initials
+        var initials = Object.keys(projectByInitials);
+        for (i = 0; i < initials.length; i++) {
+            if (query === initials[i]) {
+                return projectToUrl(projectByInitials[query]);
             }
         }
+
+        // last resort: try identifying characters in common, longest aliases first
+        var aliases = Object.keys(projectByAlias);
+        // prefer longest project names first
+        aliases.sort(function (a, b) { return a.length < b.length ? 1 : (a.length > b.length ? -1 : 0); });
+        for (i = 0; i < aliases.length; i++) {
+            if (looseMatch(query, aliases[i])) {
+                return projectToUrl(projectByAlias[aliases[i]]);
+            }
+        }
+
         return null;
     }
 
@@ -126,10 +182,19 @@ Redirecting...
 
     function runTests() {
         test("/foo", null);
+        test("/", null);
         test("/galton-board", homepage + "galton");
         test("/fit-file", homepage + "fit");
         test("/markdown", homepage + "markdown-toc");
         test("/jan-itor", github + "janitor");
+        test("/rpa", homepage + "rock-paper-automata");
+        test("/rock", homepage + "rock-paper-automata");
+        test("/rockpaper", homepage + "rock-paper-automata");
+        test("/blow", homepage + "divide-or-blow");
+        test("/domino", homepage + "dominoes");
+        test("/dominos", homepage + "dominoes");
+        test("/prime", homepage + "spiral");
+        test("/wc", homepage + "world-cup");  // should match by initials, otherwise will match 'markdown-toc'
     }
 
     init();
