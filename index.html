@@ -30,6 +30,8 @@
             box-sizing: border-box;
             --tile-ratio: calc(168 / 202);
             --tile-width: 202px;
+            --tile-margin: 0;
+            --max-width-in-tiles: 1;
         }
 
         @font-face {
@@ -53,7 +55,7 @@
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-            justify-content: center;
+            justify-content: flex-start;
             align-content: flex-start;
 
             margin: auto;
@@ -192,26 +194,48 @@
         }
 
         /*
+           All media queries from now will have min-widths based on the following formula:
+
+               <width-in-tiles> + <margins> + <vertical-scrollbar-slack>
+
+           - width-in-tiles: self explanatory
+           - margins: has to take into account each margin of each tile
+           - vertical-scrollbar-slack: this is necessary to compensate for the width of the scrollbar, which varies
+                                       from browser to browser. Kept a high value so that we're on the safe side.
+
+           CSS variables are still not supported inside media query conditions, so values have to be pre-calculated.
+
+           2 tiles  =>  2 * (202 + 4 + 4) + 20 = 2 * 210 + 20 =  440px
+           3 tiles  =>          . . .          = 3 * 210 + 20 =  650px
+           4 tiles  =>          . . .          = 4 * 210 + 20 =  860px
+           5 tiles  =>          . . .          = 5 * 210 + 20 = 1070px
+         */
+
+        /*
            From this width on, the viewport supports at least two columns at full tile width, so fix its size.
          */
-        @media all and (min-width: 404px) {  /* 2 cols with fixed width */
+        @media all and (min-width: 440px) {
+            :root {
+                --tile-margin: 4px;
+                --max-width-in-tiles: 2;
+            }
             .tile {
                 width: 202px;
                 height: 168px;
             }
             .tiles-container {
-                --tile-margin: 4px;
-                max-width: calc(5 * (2 * var(--tile-margin) + var(--tile-width)));  /* limit number of tiles per row by 5 */
+                max-width: calc(var(--max-width-in-tiles) * (2 * var(--tile-margin) + var(--tile-width)));
                 margin: var(--tile-margin) auto auto auto;
             }
         }
 
-        /* ToDo column transitions are not working perfectly well wrt padding because of scrollbar widths */
-
         /*
            From this width on, the viewport supports at least 3 columns at full tile width.
          */
-        @media all and (min-width: 606px) {  /* 3 cols */
+        @media all and (min-width: 650px) {  /* 3 cols + 24px margin + 20px */
+            :root {
+                --max-width-in-tiles: 3;
+            }
             .tile.tile-padding-2 {
                 display: flex;  /* show 1st padding tile so that the first row contains header and social tiles only */
             }
@@ -225,13 +249,19 @@
             }
         }
 
-        @media all and (min-width: 808px) {  /* 4 cols */
+        @media all and (min-width: 860px) {  /* 4 cols + 32px + 20px */
+            :root {
+                --max-width-in-tiles: 4;
+            }
             .tile.tile-padding-3 {
                 display: flex;  /* show 2nd padding tile so that the first row contains header and social tiles only */
             }
         }
 
-        @media all and (min-width: 1010px) {  /* 5 cols, this is the maximum we'll have (because max-width is set) */
+        @media all and (min-width: 1070px) {  /* 5 cols + 40px + 20px */
+            :root {
+                --max-width-in-tiles: 5;
+            }
             .tile.tile-padding-1 {
                 display: flex;  /* show 3rd padding tile so that the first row contains header and social tiles only */
             }
