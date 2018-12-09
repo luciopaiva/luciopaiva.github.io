@@ -32,6 +32,7 @@
             --tile-width: 202px;
             --tile-margin: 0;
             --max-width-in-tiles: 1;
+            --font-color: white;
         }
 
         @font-face {
@@ -50,6 +51,9 @@
             line-height: 1;
             font-family: "Cabin Sketch", monospace;
             overflow-y: hidden;
+        }
+        a, a:hover, a:active, a:visited {
+            color: var(--font-color);
         }
         .tiles-container {
             display: flex;
@@ -80,7 +84,7 @@
         }
         .tile.header {
             background-color: #444444;
-            color: white;
+            color: var(--font-color);
             font-size: 54px;
             justify-content: center;
             align-items: center;
@@ -139,17 +143,23 @@
         .front {
             z-index: 2;
             transform: rotateY(0);  /** firefox needs this */
+            color: var(--font-color);
+            font-size: 44px;
+
+            /* center text on the card, if any */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .front.code {
-            color: white;
-            font-size: 38px;
+        .front-with-bg {
+            background-image: url(img/card-back.png);
         }
         .back {
             transform: rotateY(180deg);
             background-image: url(img/card-back.png);
         }
         .back {
-            color: white;
+            color: var(--font-color);
         }
         .back h1 {
             margin: 10px;
@@ -301,6 +311,30 @@
         </a>
     </div>
 
+    <a href="articles" class="tile">
+        <div class="card">
+            <div class="front front-with-bg">
+                Articles
+            </div>
+            <div class="back">
+                <h1>Articles</h1>
+                <p>My collection of writings.</p>
+            </div>
+        </div>
+    </a>
+<!--
+    <a href="//luciopaiva.com/tools" target="_blank" class="tile">
+        <div class="card">
+            <div class="front front-with-bg">
+                Tools
+            </div>
+            <div class="back">
+                <h1>Tools</h1>
+                <p>Some useful online tools I've developed over the years.</p>
+            </div>
+        </div>
+    </a>
+-->
     <a href="//luciopaiva.com/witchcraft" target="_blank" class="tile">
         <div class="card">
             <div class="front">
@@ -309,17 +343,6 @@
             <div class="back">
                 <h1>Witchcraft</h1>
                 <p>Chrome extension to inject JS and CSS into any page. Think Greasemonkey for advanced users.</p>
-            </div>
-        </div>
-    </a>
-    <a href="//luciopaiva.com/dweets" target="_blank" class="tile">
-        <div class="card">
-            <div class="front">
-                <img src="img/dwitter.png" alt="Dweets explained">
-            </div>
-            <div class="back">
-                <h1>Dweets explained</h1>
-                <p>A three-part series on what a dweet is and how it works.</p>
             </div>
         </div>
     </a>
@@ -625,7 +648,7 @@
     </a>
     <a href="//github.com/luciopaiva/prep" target="_blank" class="tile">
         <div class="card">
-            <div class="front code">
+            <div class="front">
                 <img src="img/cols-and-rows.png" alt="cols and rows">
             </div>
             <div class="back">
