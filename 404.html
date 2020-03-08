@@ -37,7 +37,7 @@ Redirecting...
         @cambio
         spiral primespiral
         dominoes dominotiling dominotiles
-        rock-paper-automata
+        rock-paper-automaton rock-paper-automata rockpaperautomata
         world-cup
         gear
         particles
@@ -189,9 +189,11 @@ Redirecting...
         test("/fit-file", homepage + "fit");
         test("/markdown", homepage + "markdown-toc");
         test("/jan-itor", github + "janitor");
-        test("/rpa", homepage + "rock-paper-automata");
-        test("/rock", homepage + "rock-paper-automata");
-        test("/rockpaper", homepage + "rock-paper-automata");
+        test("/rpa", homepage + "rock-paper-automaton");
+        test("/rock", homepage + "rock-paper-automaton");
+        test("/rockpaper", homepage + "rock-paper-automaton");
+        test("/automata", homepage + "rock-paper-automaton");
+        test("/rock-paper-automata", homepage + "rock-paper-automaton");
         test("/blow", homepage + "divide-or-blow");
         test("/domino", homepage + "dominoes");
         test("/dominos", homepage + "dominoes");
@@ -200,8 +202,8 @@ Redirecting...
     }
 
     init();
-    // runTests();
-    redirect(window.location.pathname);
+    runTests();
+    // redirect(window.location.pathname);
 })();
 </script>
 </body>
